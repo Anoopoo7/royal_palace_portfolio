@@ -8,6 +8,8 @@ import { promotion } from "./promotion";
 import { homePage } from "./homePage";
 import { roomsPage } from "./roomsPage";
 import { experiencesPage } from "./experiencesPage";
+import { aboutPage } from "./aboutPage";
+import { contactPage } from "./contactPage";
 
 export const schemaTypes = [
   siteSettings,
@@ -20,6 +22,9 @@ export const schemaTypes = [
   homePage,
   roomsPage,
   experiencesPage,
+  aboutPage,
+  contactPage,
 ];
+
 
 

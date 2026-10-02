@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeSection, RoomCMS, ExperienceCMS, TestimonialCMS, GalleryItemCMS } from "@/lib/sanity/types";
+import { HomeSection, RoomCMS, ExperienceCMS, TestimonialCMS, GalleryItemCMS, PromotionCMS } from "@/lib/sanity/types";
 import HeroSection from "./HeroSection";
 import BookingBar from "../booking/BookingBar";
 import EditorialSection from "./EditorialSection";
@@ -20,6 +20,7 @@ interface SectionRendererProps {
   experiences?: ExperienceCMS[];
   testimonials?: TestimonialCMS[];
   galleryItems?: GalleryItemCMS[];
+  promotion?: PromotionCMS | null;
 }
 
 export default function SectionRenderer({
@@ -28,6 +29,7 @@ export default function SectionRenderer({
   experiences = [],
   testimonials,
   galleryItems,
+  promotion,
 }: SectionRendererProps) {
   if (!sections || sections.length === 0) return null;
   console.log(sections);
@@ -58,7 +60,7 @@ export default function SectionRenderer({
           case "locationSection":
             return <LocationSection key={section._key} data={section} />;
           case "promotionSection":
-            return <PromotionSection key={section._key} data={section} />;
+            return <PromotionSection key={section._key} data={section} promotion={promotion} />;
           case "finalCtaSection":
             return <FinalCTASection key={section._key} data={section} />;
           default:
@@ -70,3 +72,4 @@ export default function SectionRenderer({
     </div>
   );
 }
+

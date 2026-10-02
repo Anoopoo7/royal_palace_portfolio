@@ -261,6 +261,29 @@ export interface ExperiencesPageData {
   seoDescription?: string;
 }
 
+export interface AboutPageData {
+  eyebrow?: string;
+  heading?: string;
+  heroImage?: SanityImage | string;
+  storyTitle?: string;
+  storyParagraphs?: string[];
+  ctaTitle?: string;
+  ctaSubtitle?: string;
+  ctaButtonText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+export interface ContactPageData {
+  eyebrow?: string;
+  heading?: string;
+  subtitle?: string;
+  formTitle?: string;
+  formSubmitText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
 export type HomeSection =
   | HeroSectionData
   | BookingBarSectionData

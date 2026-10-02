@@ -12,6 +12,8 @@ const singletonTypes = new Set([
   "homePage",
   "roomsPage",
   "experiencesPage",
+  "aboutPage",
+  "contactPage",
 ]);
 
 export default defineConfig({
@@ -61,6 +63,24 @@ export default defineConfig({
                 S.document()
                   .schemaType("experiencesPage")
                   .documentId("experiencesPage")
+              ),
+            // Singleton: About Page
+            S.listItem()
+              .title("About Page")
+              .id("aboutPage")
+              .child(
+                S.document()
+                  .schemaType("aboutPage")
+                  .documentId("aboutPage")
+              ),
+            // Singleton: Contact Page
+            S.listItem()
+              .title("Contact Page")
+              .id("contactPage")
+              .child(
+                S.document()
+                  .schemaType("contactPage")
+                  .documentId("contactPage")
               ),
 
             S.divider(),

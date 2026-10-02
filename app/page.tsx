@@ -4,18 +4,20 @@ import {
   getExperiences,
   getTestimonials,
   getGalleryItems,
+  getActivePromotion,
 } from "@/lib/sanity/queries";
 import SectionRenderer from "@/components/sections/SectionRenderer";
 
 export const revalidate = 60; // Revalidate CMS data every minute
 
 export default async function HomePage() {
-  const [sections, rooms, experiences, testimonials, galleryItems] = await Promise.all([
+  const [sections, rooms, experiences, testimonials, galleryItems, promotion] = await Promise.all([
     getHomePageSections(),
     getRooms(),
     getExperiences(),
     getTestimonials(),
     getGalleryItems(),
+    getActivePromotion(),
   ]);
 
   return (
@@ -25,6 +27,8 @@ export default async function HomePage() {
       experiences={experiences}
       testimonials={testimonials}
       galleryItems={galleryItems}
+      promotion={promotion}
     />
   );
 }
+

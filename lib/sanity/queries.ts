@@ -10,6 +10,8 @@ import {
   HomeSection,
   RoomsPageData,
   ExperiencesPageData,
+  AboutPageData,
+  ContactPageData,
 } from "./types";
 import {
   MOCK_SITE_SETTINGS,
@@ -22,6 +24,8 @@ import {
   MOCK_HOME_SECTIONS,
   MOCK_ROOMS_PAGE,
   MOCK_EXPERIENCES_PAGE,
+  MOCK_ABOUT_PAGE,
+  MOCK_CONTACT_PAGE,
 } from "../mock-data";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -84,8 +88,7 @@ export async function getActivePromotion(): Promise<PromotionCMS | null> {
   const today = new Date().toISOString().split("T")[0];
   const query = `*[_type == "promotion" && enabled == true && validFrom <= $today && validUntil >= $today][0]`;
   const result = await fetchSanityQuery<PromotionCMS>(query, { today });
-  if (result) return result;
-  return MOCK_PROMOTION;
+  return result;
 }
 
 export async function getRoomsPageData(): Promise<RoomsPageData> {
@@ -98,4 +101,16 @@ export async function getExperiencesPageData(): Promise<ExperiencesPageData> {
   const query = `*[_type == "experiencesPage"][0]`;
   const result = await fetchSanityQuery<ExperiencesPageData>(query);
   return result || MOCK_EXPERIENCES_PAGE;
+}
+
+export async function getAboutPageData(): Promise<AboutPageData> {
+  const query = `*[_type == "aboutPage"][0]`;
+  const result = await fetchSanityQuery<AboutPageData>(query);
+  return result || MOCK_ABOUT_PAGE;
+}
+
+export async function getContactPageData(): Promise<ContactPageData> {
+  const query = `*[_type == "contactPage"][0]`;
+  const result = await fetchSanityQuery<ContactPageData>(query);
+  return result || MOCK_CONTACT_PAGE;
 }

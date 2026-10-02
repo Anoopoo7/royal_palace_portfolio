@@ -9,6 +9,8 @@ import {
   HomeSection,
   RoomsPageData,
   ExperiencesPageData,
+  AboutPageData,
+  ContactPageData,
 } from "./sanity/types";
 
 export const MOCK_SITE_SETTINGS: SiteSettings = {
@@ -243,7 +245,7 @@ export const MOCK_GALLERY: GalleryItemCMS[] = [
 export const MOCK_PROMOTION: PromotionCMS = {
   _id: "prom-1",
   title: "Monsoon & Winter Coastal Escape",
-  description: "Book 3 nights or more at Royal Palace and receive complimentary sunrise kayaking and private coastal seafood dinner.",
+  description: "Book 3 nights or more at Royal Palace and -- receive complimentary sunrise kayaking and private coastal seafood dinner.",
   ctaLabel: "Claim Escape Package",
   ctaUrl: "/booking",
   validFrom: "2026-06-01",
@@ -469,4 +471,31 @@ export const MOCK_EXPERIENCES_PAGE: ExperiencesPageData = {
   seoTitle: "Varkala Experiences | Royal Palace",
   seoDescription:
     "Explore cliffside walks, backwater kayaking, and authentic Malabar dining at Royal Palace Varkala.",
+};
+
+export const MOCK_ABOUT_PAGE: AboutPageData = {
+  eyebrow: "OUR PHILOSOPHY",
+  heading: "Slow Hospitality in Kerala",
+  heroImage: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+  storyTitle: "Crafted for Unhurried Living",
+  storyParagraphs: [
+    "Royal Palace was conceived as an architectural antidote to fast-paced commercial resorts. Located on the serene red clay cliffs of Varkala, the property celebrates natural Malabar teak wood, open garden courtyards, and sea breezes.",
+    "Every detail — from our daily coastal sea catch cooked over banana leaves to sunrise backwater kayaking — is curated to help guests reconnect with nature and quiet living.",
+  ],
+  ctaTitle: "Plan Your Varkala Escape",
+  ctaSubtitle: "Experience private ocean view suites and personalized Kerala hospitality.",
+  ctaButtonText: "Check Room Availability",
+  seoTitle: "About Royal Palace | Boutique Resort in Varkala",
+  seoDescription: "The story behind Royal Palace private resort homestay in Varkala, Kerala.",
+};
+
+export const MOCK_CONTACT_PAGE: ContactPageData = {
+  eyebrow: "CONCIERGE & DIRECT CONTACT",
+  heading: "We Are Here to Welcome You",
+  subtitle:
+    "Reach out directly for custom booking inquiries, group stay reservations, or travel guidance from Trivandrum International Airport.",
+  formTitle: "Send an Inquiry",
+  formSubmitText: "Submit Inquiry",
+  seoTitle: "Contact & Location | Royal Palace Varkala",
+  seoDescription: "Get in touch with Royal Palace Varkala concierge for reservations and directions.",
 };
