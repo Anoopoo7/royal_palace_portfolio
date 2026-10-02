@@ -7,6 +7,7 @@ import { galleryItem } from "./galleryItem";
 import { promotion } from "./promotion";
 import { homePage } from "./homePage";
 import { roomsPage } from "./roomsPage";
+import { experiencesPage } from "./experiencesPage";
 
 export const schemaTypes = [
   siteSettings,
@@ -18,5 +19,7 @@ export const schemaTypes = [
   promotion,
   homePage,
   roomsPage,
+  experiencesPage,
 ];
+
 

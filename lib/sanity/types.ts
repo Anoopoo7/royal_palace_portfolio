@@ -252,6 +252,15 @@ export interface RoomsPageData {
   seoDescription?: string;
 }
 
+export interface ExperiencesPageData {
+  eyebrow?: string;
+  heading?: string;
+  subtitle?: string;
+  detailsCtaText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
 export type HomeSection =
   | HeroSectionData
   | BookingBarSectionData

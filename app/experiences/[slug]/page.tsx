@@ -1,7 +1,10 @@
 import { getExperienceBySlug } from "@/lib/sanity/queries";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Clock, MapPin, Compass } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
+import SanityImg from "@/components/ui/SanityImg";
+import SanityVideo from "@/components/ui/SanityVideo";
+import ImageGalleryLightbox from "@/components/ui/ImageGalleryLightbox";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
@@ -47,13 +50,34 @@ export default async function ExperienceDetailPage(props: { params: Promise<{ sl
           </div>
         </div>
 
-        <div className="aspect-[16/9] overflow-hidden border border-[#B89A62]/30 shadow-2xl">
-          <img
-            src={exp.heroImage as string}
-            alt={exp.title}
-            className="w-full h-full object-cover"
+        {/* Media Frame: Video player (if video is uploaded) */}
+        {exp.video && (
+          <div className="space-y-3">
+            <div className="aspect-[16/9] overflow-hidden border border-[#B89A62]/30 shadow-2xl relative bg-[#12100E]">
+              <SanityVideo
+                source={exp.video}
+                controls
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full"
+              />
+            </div>
+            <span className="text-[10px] uppercase tracking-widest text-[#B89A62]/70 block text-right font-mono">
+              ★ Featured Experience Video
+            </span>
+          </div>
+        )}
+
+        {/* Hero Image with Lightbox */}
+        {exp.heroImage && (
+          <ImageGalleryLightbox
+            images={[exp.heroImage]}
+            title={exp.title}
+            className="grid grid-cols-1"
           />
-        </div>
+        )}
 
         <div className="space-y-6 max-w-3xl">
           <h3 className="font-serif-editorial text-2xl text-[#F5F1E8]">
@@ -63,6 +87,19 @@ export default async function ExperienceDetailPage(props: { params: Promise<{ sl
             {exp.description || exp.shortDescription}
           </p>
         </div>
+
+        {/* Experience Gallery with Lightbox Modal & Close Button */}
+        {exp.gallery && exp.gallery.length > 0 && (
+          <div className="space-y-6 pt-6 border-t border-[#B89A62]/20">
+            <h3 className="font-serif-editorial text-2xl text-[#F5F1E8]">
+              Experience Gallery
+            </h3>
+            <ImageGalleryLightbox
+              images={exp.gallery}
+              title={`${exp.title} Gallery`}
+            />
+          </div>
+        )}
 
         <div className="bg-[#12100E] border border-[#B89A62]/20 p-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div>
@@ -77,10 +114,12 @@ export default async function ExperienceDetailPage(props: { params: Promise<{ sl
             href="/booking"
             className="px-8 py-3.5 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#D4B67E] transition-all whitespace-nowrap"
           >
-            Book Room & Experience
+            {exp.ctaText || "Book Room & Experience"}
           </Link>
         </div>
       </div>
     </div>
   );
 }
+
+

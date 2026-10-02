@@ -8,6 +8,7 @@ import {
   PromotionCMS,
   HomeSection,
   RoomsPageData,
+  ExperiencesPageData,
 } from "./sanity/types";
 
 export const MOCK_SITE_SETTINGS: SiteSettings = {
@@ -457,4 +458,15 @@ export const MOCK_ROOMS_PAGE: RoomsPageData = {
   bookCtaText: "Book This Room",
   detailsCtaText: "View Details",
   amenitiesHeading: "Key Amenities",
+};
+
+export const MOCK_EXPERIENCES_PAGE: ExperiencesPageData = {
+  eyebrow: "CURATED EXPERIENCES",
+  heading: "Discover Varkala & Beyond",
+  subtitle:
+    "From dawn backwater kayaking to cliffside golden hour walks, we curate quiet, authentic journeys into Southern Kerala’s coastal culture.",
+  detailsCtaText: "Explore Journey",
+  seoTitle: "Varkala Experiences | Royal Palace",
+  seoDescription:
+    "Explore cliffside walks, backwater kayaking, and authentic Malabar dining at Royal Palace Varkala.",
 };

@@ -1,28 +1,42 @@
-import { getExperiences } from "@/lib/sanity/queries";
+import { getExperiences, getExperiencesPageData } from "@/lib/sanity/queries";
 import Link from "next/link";
-import { Clock, MapPin, Compass } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
+import SanityImg from "@/components/ui/SanityImg";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Varkala Experiences",
-  description: "Explore cliffside walks, backwater kayaking, and authentic Malabar dining at Royal Palace Varkala.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getExperiencesPageData();
+  return {
+    title: pageData.seoTitle || "Varkala Experiences",
+    description:
+      pageData.seoDescription ||
+      "Explore cliffside walks, backwater kayaking, and authentic Malabar dining at Royal Palace Varkala.",
+  };
+}
 
 export default async function ExperiencesPage() {
-  const experiences = await getExperiences();
+  const [experiences, pageData] = await Promise.all([
+    getExperiences(),
+    getExperiencesPageData(),
+  ]);
 
   return (
     <div className="pt-32 pb-24 bg-[#171513] text-[#F5F1E8] min-h-screen">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16">
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-[10px] uppercase tracking-[0.35em] text-[#B89A62] font-semibold">
-            CURATED EXPERIENCES
-          </span>
+          {pageData.eyebrow && (
+            <span className="text-[10px] uppercase tracking-[0.35em] text-[#B89A62] font-semibold">
+              {pageData.eyebrow}
+            </span>
+          )}
           <h1 className="font-serif-editorial text-4xl md:text-6xl font-light">
-            Discover Varkala & Beyond
+            {pageData.heading || "Discover Varkala & Beyond"}
           </h1>
-          <p className="text-xs md:text-sm text-[#F5F1E8]/70 font-light leading-relaxed">
-            From dawn backwater kayaking to cliffside golden hour walks, we curate quiet, authentic journeys into Southern Kerala’s coastal culture.
-          </p>
+          {pageData.subtitle && (
+            <p className="text-xs md:text-sm text-[#F5F1E8]/70 font-light leading-relaxed">
+              {pageData.subtitle}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -33,8 +47,9 @@ export default async function ExperiencesPage() {
             >
               <div>
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img
-                    src={exp.heroImage as string}
+                  <SanityImg
+                    source={exp.heroImage}
+                    options={{ width: 800, height: 500, fit: "crop" }}
                     alt={exp.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -69,7 +84,7 @@ export default async function ExperiencesPage() {
                   href={`/experiences/${exp.slug.current}`}
                   className="w-full py-3 border border-[#B89A62]/40 text-[#F5F1E8] text-center text-xs font-semibold tracking-[0.18em] uppercase block hover:bg-[#B89A62] hover:text-[#171513] transition-all"
                 >
-                  Explore Journey
+                  {pageData.detailsCtaText || "Explore Journey"}
                 </Link>
               </div>
             </div>
@@ -79,3 +94,4 @@ export default async function ExperiencesPage() {
     </div>
   );
 }
+

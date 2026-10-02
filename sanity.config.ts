@@ -7,7 +7,12 @@ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "o3q973rv";
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "development";
 
 // Singleton document types that should only have a single document instance
-const singletonTypes = new Set(["siteSettings", "homePage", "roomsPage"]);
+const singletonTypes = new Set([
+  "siteSettings",
+  "homePage",
+  "roomsPage",
+  "experiencesPage",
+]);
 
 export default defineConfig({
   name: "royal-palace-studio",
@@ -47,6 +52,15 @@ export default defineConfig({
                 S.document()
                   .schemaType("roomsPage")
                   .documentId("roomsPage")
+              ),
+            // Singleton: Experiences Listing Page
+            S.listItem()
+              .title("Experiences Listing Page")
+              .id("experiencesPage")
+              .child(
+                S.document()
+                  .schemaType("experiencesPage")
+                  .documentId("experiencesPage")
               ),
 
             S.divider(),

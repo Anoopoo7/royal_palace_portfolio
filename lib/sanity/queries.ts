@@ -9,6 +9,7 @@ import {
   PromotionCMS,
   HomeSection,
   RoomsPageData,
+  ExperiencesPageData,
 } from "./types";
 import {
   MOCK_SITE_SETTINGS,
@@ -20,6 +21,7 @@ import {
   MOCK_PROMOTION,
   MOCK_HOME_SECTIONS,
   MOCK_ROOMS_PAGE,
+  MOCK_EXPERIENCES_PAGE,
 } from "../mock-data";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -90,4 +92,10 @@ export async function getRoomsPageData(): Promise<RoomsPageData> {
   const query = `*[_type == "roomsPage"][0]`;
   const result = await fetchSanityQuery<RoomsPageData>(query);
   return result || MOCK_ROOMS_PAGE;
+}
+
+export async function getExperiencesPageData(): Promise<ExperiencesPageData> {
+  const query = `*[_type == "experiencesPage"][0]`;
+  const result = await fetchSanityQuery<ExperiencesPageData>(query);
+  return result || MOCK_EXPERIENCES_PAGE;
 }

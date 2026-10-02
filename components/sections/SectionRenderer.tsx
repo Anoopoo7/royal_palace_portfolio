@@ -25,7 +25,7 @@ interface SectionRendererProps {
 export default function SectionRenderer({
   sections,
   rooms,
-  experiences,
+  experiences = [],
   testimonials,
   galleryItems,
 }: SectionRendererProps) {
@@ -48,11 +48,11 @@ export default function SectionRenderer({
           case "storyScrollerSection":
             return <StoryScrollerSection key={section._key} data={section} />;
           case "experienceGridSection":
-            return <ExperienceGridSection key={section._key} data={section} experiences={experiences} />;
+            return <ExperienceGridSection key={section._key} data={section} experiences={experiences?.filter(each => each?.featured)} />;
           case "dayTimelineSection":
             return <DayTimelineSection key={section._key} data={section} />;
           case "gallerySection":
-            return <GallerySection key={section._key} data={section} items={galleryItems} />;
+            return <GallerySection key={section._key} data={section} items={galleryItems?.filter(each => each?.featured)} />;
           case "testimonialsSection":
             return <TestimonialsSection key={section._key} data={section} testimonials={testimonials} />;
           case "locationSection":
