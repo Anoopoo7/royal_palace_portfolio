@@ -7,6 +7,7 @@ import {
   GalleryItemCMS,
   PromotionCMS,
   HomeSection,
+  RoomsPageData,
 } from "./sanity/types";
 
 export const MOCK_SITE_SETTINGS: SiteSettings = {
@@ -444,3 +445,16 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
     backgroundImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
   },
 ];
+
+export const MOCK_ROOMS_PAGE: RoomsPageData = {
+  eyebrow: "ACCOMMODATIONS & SUITES",
+  heading: "Architectural Sanctuaries",
+  subtitle:
+    "Each suite and villa at Royal Palace is crafted from warm Kerala teak, natural stone, and expansive ocean balconies designed to capture slow coastal daylight.",
+  seoTitle: "Accommodations & Suites | Royal Palace",
+  seoDescription:
+    "Discover luxury cliffside suites and heritage teak villas at Royal Palace Varkala.",
+  bookCtaText: "Book This Room",
+  detailsCtaText: "View Details",
+  amenitiesHeading: "Key Amenities",
+};

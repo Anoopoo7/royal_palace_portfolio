@@ -8,6 +8,7 @@ import {
   GalleryItemCMS,
   PromotionCMS,
   HomeSection,
+  RoomsPageData,
 } from "./types";
 import {
   MOCK_SITE_SETTINGS,
@@ -18,6 +19,7 @@ import {
   MOCK_GALLERY,
   MOCK_PROMOTION,
   MOCK_HOME_SECTIONS,
+  MOCK_ROOMS_PAGE,
 } from "../mock-data";
 
 export async function getSiteSettings(): Promise<SiteSettings> {
@@ -82,4 +84,10 @@ export async function getActivePromotion(): Promise<PromotionCMS | null> {
   const result = await fetchSanityQuery<PromotionCMS>(query, { today });
   if (result) return result;
   return MOCK_PROMOTION;
+}
+
+export async function getRoomsPageData(): Promise<RoomsPageData> {
+  const query = `*[_type == "roomsPage"][0]`;
+  const result = await fetchSanityQuery<RoomsPageData>(query);
+  return result || MOCK_ROOMS_PAGE;
 }

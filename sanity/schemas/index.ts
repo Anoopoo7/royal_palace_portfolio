@@ -6,6 +6,7 @@ import { testimonial } from "./testimonial";
 import { galleryItem } from "./galleryItem";
 import { promotion } from "./promotion";
 import { homePage } from "./homePage";
+import { roomsPage } from "./roomsPage";
 
 export const schemaTypes = [
   siteSettings,
@@ -16,4 +17,6 @@ export const schemaTypes = [
   galleryItem,
   promotion,
   homePage,
+  roomsPage,
 ];
+

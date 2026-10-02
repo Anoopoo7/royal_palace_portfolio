@@ -14,7 +14,7 @@ export default async function GalleryPage() {
       <GallerySection
         data={{
           _key: "page-gallery",
-          _type: "gallery",
+          _type: "gallerySection",
           eyebrow: "ARCHITECTURAL PORTFOLIO",
           title: "Visual Journal",
           subtitle: "Moments of stillness, teak architecture, and Varkala sea daylight.",

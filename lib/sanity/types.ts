@@ -241,6 +241,17 @@ export interface FinalCtaSectionData extends SectionBase {
   backgroundImage?: SanityImage | string;
 }
 
+export interface RoomsPageData {
+  eyebrow?: string;
+  heading?: string;
+  subtitle?: string;
+  bookCtaText?: string;
+  detailsCtaText?: string;
+  amenitiesHeading?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
 export type HomeSection =
   | HeroSectionData
   | BookingBarSectionData
@@ -254,3 +265,4 @@ export type HomeSection =
   | LocationSectionData
   | PromotionSectionData
   | FinalCtaSectionData;
+
