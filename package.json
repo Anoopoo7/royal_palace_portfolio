@@ -9,9 +9,21 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@sanity/client": "^6.28.2",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^6.17.0",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.4.7",
+    "gsap": "^3.12.7",
+    "lucide-react": "^0.475.0",
+    "mongodb": "^6.13.0",
     "next": "16.3.8",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "sanity": "^6.17.0",
+    "server-only": "^0.0.1",
+    "styled-components": "^6.5.3",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
