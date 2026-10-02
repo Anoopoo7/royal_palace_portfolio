@@ -2,8 +2,16 @@
 
 import { motion } from "framer-motion";
 import { EditorialSectionData } from "@/lib/sanity/types";
+import { useSanityImage } from "@/hooks/useSanityImage";
 
 export default function EditorialSection({ data }: { data: EditorialSectionData }) {
+  const imageSrc = useSanityImage(data.image, {
+    width: 900,
+    quality: 85,
+    fallback:
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+  });
+
   return (
     <section id="discover" className="py-24 md:py-36 bg-[#171513] text-[#F5F1E8] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -26,7 +34,7 @@ export default function EditorialSection({ data }: { data: EditorialSectionData 
           </h2>
 
           <div className="space-y-4 text-sm md:text-base text-[#F5F1E8]/80 font-light leading-relaxed">
-            {data.bodyParagraphs.map((para, i) => (
+            {data.bodyParagraphs?.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
           </div>
@@ -34,7 +42,7 @@ export default function EditorialSection({ data }: { data: EditorialSectionData 
           {data.quote && (
             <div className="border-l-2 border-[#B89A62] pl-6 py-2 mt-6">
               <p className="font-serif-editorial text-xl italic text-[#D8C7AD]">
-                "{data.quote}"
+                &ldquo;{data.quote}&rdquo;
               </p>
             </div>
           )}
@@ -50,7 +58,7 @@ export default function EditorialSection({ data }: { data: EditorialSectionData 
         >
           <div className="relative aspect-[4/5] overflow-hidden border border-[#B89A62]/20 shadow-2xl">
             <img
-              src={data.imageUrl}
+              src={imageSrc}
               alt={data.imageCaption || "Royal Palace Varkala"}
               className="w-full h-full object-cover object-center filter saturate-90 hover:scale-105 transition-transform duration-700"
             />

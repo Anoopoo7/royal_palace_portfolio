@@ -4,8 +4,20 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { HeroSectionData } from "@/lib/sanity/types";
+import { useSanityImage } from "@/hooks/useSanityImage";
+import { useSanityVideo } from "@/hooks/useSanityVideo";
 
 export default function HeroSection({ data }: { data: HeroSectionData }) {
+  const posterSrc = useSanityImage(data.posterImage, {
+    width: 1920,
+    quality: 85,
+    fallback:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+  });
+  const desktopVideoSrc = useSanityVideo(data.desktopVideo, {
+    fallback: "",
+  });
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -30,20 +42,20 @@ export default function HeroSection({ data }: { data: HeroSectionData }) {
     <section className="relative w-full min-h-[92vh] flex items-center justify-center overflow-hidden bg-[#171513]">
       {/* Background Video / Image Fallback */}
       <div className="absolute inset-0 z-0">
-        {data.desktopVideoUrl ? (
+        {desktopVideoSrc ? (
           <video
             autoPlay
             loop
             muted
             playsInline
-            poster={data.posterImage as string}
+            poster={posterSrc}
             className="w-full h-full object-cover object-center scale-105 filter brightness-75"
           >
-            <source src={data.desktopVideoUrl} type="video/mp4" />
+            <source src={desktopVideoSrc} type="video/mp4" />
           </video>
         ) : (
           <img
-            src={(data.posterImage as string) || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80"}
+            src={posterSrc}
             alt="Royal Palace Varkala"
             className="w-full h-full object-cover object-center brightness-75"
           />

@@ -3,14 +3,22 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FinalCtaSectionData } from "@/lib/sanity/types";
+import { useSanityImage } from "@/hooks/useSanityImage";
 
 export default function FinalCTASection({ data }: { data: FinalCtaSectionData }) {
+  const bgSrc = useSanityImage(data.backgroundImage, {
+    width: 1920,
+    quality: 80,
+    fallback:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+  });
+
   return (
     <section className="relative py-32 md:py-48 bg-[#171513] text-[#F5F1E8] overflow-hidden flex items-center justify-center">
       {/* Background Image / Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={data.backgroundImageUrl || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80"}
+          src={bgSrc}
           alt="Royal Palace Varkala Sunset"
           className="w-full h-full object-cover filter brightness-50 contrast-125"
         />

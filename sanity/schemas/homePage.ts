@@ -20,9 +20,9 @@ export const homePage = defineType({
             defineField({ name: "eyebrow", title: "Eyebrow Text", type: "string" }),
             defineField({ name: "heading", title: "Main Heading", type: "string" }),
             defineField({ name: "subtitle", title: "Subtitle Copy", type: "text", rows: 2 }),
-            defineField({ name: "desktopVideoUrl", title: "Desktop Video URL", type: "url" }),
-            defineField({ name: "mobileVideoUrl", title: "Mobile Video URL", type: "url" }),
-            defineField({ name: "posterImage", title: "Poster Image", type: "image" }),
+            defineField({ name: "desktopVideo", title: "Desktop Background Video", type: "file", options: { accept: "video/*" } }),
+            defineField({ name: "mobileVideo", title: "Mobile Background Video", type: "file", options: { accept: "video/*" } }),
+            defineField({ name: "posterImage", title: "Poster / Fallback Image", type: "image", options: { hotspot: true } }),
             defineField({ name: "primaryCtaText", title: "Primary Button Text", type: "string" }),
             defineField({ name: "secondaryCtaText", title: "Secondary Button Text", type: "string" }),
           ],
@@ -45,7 +45,8 @@ export const homePage = defineType({
             defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
             defineField({ name: "title", title: "Title", type: "string" }),
             defineField({ name: "bodyParagraphs", title: "Paragraphs", type: "array", of: [{ type: "text" }] }),
-            defineField({ name: "imageUrl", title: "Image URL / Asset", type: "string" }),
+            defineField({ name: "image", title: "Section Image", type: "image", options: { hotspot: true } }),
+            defineField({ name: "imageCaption", title: "Image Caption", type: "string" }),
             defineField({ name: "quote", title: "Pull Quote", type: "string" }),
           ],
         },
@@ -68,6 +69,40 @@ export const homePage = defineType({
             defineField({ name: "enabled", title: "Enabled", type: "boolean", initialValue: true }),
             defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
             defineField({ name: "title", title: "Title", type: "string" }),
+            defineField({
+              name: "scenes",
+              title: "Scenes",
+              type: "array",
+              of: [
+                {
+                  type: "object",
+                  name: "storyScene",
+                  title: "Scene",
+                  fields: [
+                    defineField({ name: "title", title: "Scene Title", type: "string" }),
+                    defineField({ name: "subtitle", title: "Scene Subtitle / Time Label", type: "string" }),
+                    defineField({ name: "description", title: "Scene Description", type: "text", rows: 3 }),
+                    defineField({
+                      name: "media",
+                      title: "Scene Image",
+                      type: "image",
+                      options: { hotspot: true },
+                    }),
+                    defineField({
+                      name: "mediaType",
+                      title: "Media Type",
+                      type: "string",
+                      options: { list: ["image", "video"] },
+                      initialValue: "image",
+                    }),
+                    defineField({ name: "durationSeconds", title: "Auto-advance Duration (seconds)", type: "number" }),
+                  ],
+                  preview: {
+                    select: { title: "title", subtitle: "subtitle", media: "media" },
+                  },
+                },
+              ],
+            }),
           ],
         },
         {
@@ -88,6 +123,28 @@ export const homePage = defineType({
             defineField({ name: "enabled", title: "Enabled", type: "boolean", initialValue: true }),
             defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
             defineField({ name: "title", title: "Title", type: "string" }),
+            defineField({ name: "subtitle", title: "Subtitle", type: "string" }),
+            defineField({
+              name: "items",
+              title: "Timeline Items",
+              type: "array",
+              of: [
+                {
+                  type: "object",
+                  name: "timelineItem",
+                  title: "Timeline Item",
+                  fields: [
+                    defineField({ name: "time", title: "Time (e.g. 07:00 AM)", type: "string" }),
+                    defineField({ name: "title", title: "Activity Title", type: "string" }),
+                    defineField({ name: "description", title: "Description", type: "text", rows: 2 }),
+                    defineField({ name: "iconName", title: "Icon Name (optional)", type: "string" }),
+                  ],
+                  preview: {
+                    select: { title: "title", subtitle: "time" },
+                  },
+                },
+              ],
+            }),
           ],
         },
         {
@@ -118,6 +175,29 @@ export const homePage = defineType({
             defineField({ name: "enabled", title: "Enabled", type: "boolean", initialValue: true }),
             defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
             defineField({ name: "title", title: "Title", type: "string" }),
+            defineField({ name: "description", title: "Description", type: "text", rows: 3 }),
+            defineField({ name: "address", title: "Full Address", type: "string" }),
+            defineField({ name: "mapUrl", title: "Google Maps URL", type: "url" }),
+            defineField({
+              name: "landmarks",
+              title: "Nearby Landmarks",
+              type: "array",
+              of: [
+                {
+                  type: "object",
+                  name: "landmark",
+                  title: "Landmark",
+                  fields: [
+                    defineField({ name: "name", title: "Place Name", type: "string" }),
+                    defineField({ name: "distance", title: "Distance (e.g. 4 mins walk)", type: "string" }),
+                    defineField({ name: "description", title: "Short Description", type: "string" }),
+                  ],
+                  preview: {
+                    select: { title: "name", subtitle: "distance" },
+                  },
+                },
+              ],
+            }),
           ],
         },
         {
@@ -136,7 +216,9 @@ export const homePage = defineType({
             defineField({ name: "enabled", title: "Enabled", type: "boolean", initialValue: true }),
             defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
             defineField({ name: "heading", title: "Heading", type: "string" }),
+            defineField({ name: "subtitle", title: "Subtitle", type: "text", rows: 2 }),
             defineField({ name: "buttonText", title: "Button Text", type: "string" }),
+            defineField({ name: "backgroundImage", title: "Background Image", type: "image", options: { hotspot: true } }),
           ],
         },
       ],

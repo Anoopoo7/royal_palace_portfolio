@@ -30,36 +30,36 @@ export default function SectionRenderer({
   galleryItems,
 }: SectionRendererProps) {
   if (!sections || sections.length === 0) return null;
+  console.log(sections);
 
   return (
     <div className="w-full">
       {sections.map((section) => {
         if (section.enabled === false) return null;
-
         switch (section._type) {
-          case "hero":
+          case "heroSection":
             return <HeroSection key={section._key} data={section} />;
-          case "bookingBar":
+          case "bookingBarSection":
             return <BookingBar key={section._key} />;
-          case "editorial":
+          case "editorialSection":
             return <EditorialSection key={section._key} data={section} />;
-          case "roomShowcase":
+          case "roomShowcaseSection":
             return <RoomShowcaseSection key={section._key} data={section} rooms={rooms} />;
-          case "storyScroller":
+          case "storyScrollerSection":
             return <StoryScrollerSection key={section._key} data={section} />;
-          case "experienceGrid":
+          case "experienceGridSection":
             return <ExperienceGridSection key={section._key} data={section} experiences={experiences} />;
-          case "dayTimeline":
+          case "dayTimelineSection":
             return <DayTimelineSection key={section._key} data={section} />;
-          case "gallery":
+          case "gallerySection":
             return <GallerySection key={section._key} data={section} items={galleryItems} />;
-          case "testimonials":
+          case "testimonialsSection":
             return <TestimonialsSection key={section._key} data={section} testimonials={testimonials} />;
-          case "location":
+          case "locationSection":
             return <LocationSection key={section._key} data={section} />;
-          case "promotion":
+          case "promotionSection":
             return <PromotionSection key={section._key} data={section} />;
-          case "finalCta":
+          case "finalCtaSection":
             return <FinalCTASection key={section._key} data={section} />;
           default:
             // Gracefully ignore unknown section types

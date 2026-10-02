@@ -38,7 +38,7 @@ export default function DayTimelineSection({ data }: { data: DayTimelineSectionD
 
         {/* Timeline Container */}
         <div className="relative border-l border-[#B89A62]/30 pl-8 md:pl-12 ml-4 md:ml-32 space-y-12">
-          {data.items.map((item, idx) => (
+          {data.items?.map((item, idx) => (
             <motion.div
               key={item._key}
               initial={{ opacity: 0, x: -20 }}

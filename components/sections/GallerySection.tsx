@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Maximize2 } from "lucide-react";
 import { GallerySectionData, GalleryItemCMS } from "@/lib/sanity/types";
 import { MOCK_GALLERY } from "@/lib/mock-data";
+import SanityImg from "@/components/ui/SanityImg";
 
 export default function GallerySection({
   data,
@@ -56,8 +57,9 @@ export default function GallerySection({
                 onClick={() => setActiveLightboxIndex(idx)}
                 className={`relative overflow-hidden group cursor-pointer border border-[#B89A62]/20 shadow-xl ${spanClass}`}
               >
-                <img
-                  src={item.media as string}
+                <SanityImg
+                  source={item.media}
+                  options={{ width: 1200, quality: 80 }}
                   alt={item.title}
                   className="w-full h-full object-cover filter brightness-90 group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
                 />
@@ -103,8 +105,9 @@ export default function GallerySection({
               className="max-w-5xl max-h-[85vh] relative text-center space-y-4"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={activeItem.media as string}
+              <SanityImg
+                source={activeItem.media}
+                options={{ width: 1600, quality: 90 }}
                 alt={activeItem.title}
                 className="max-h-[70vh] max-w-full object-contain mx-auto border border-[#B89A62]/30 shadow-2xl"
               />

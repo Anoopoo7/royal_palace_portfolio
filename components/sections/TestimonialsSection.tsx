@@ -3,11 +3,11 @@
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { TestimonialsSectionData, TestimonialCMS } from "@/lib/sanity/types";
-import { MOCK_TESTIMONIALS } from "@/lib/mock-data";
+import SanityImg from "@/components/ui/SanityImg";
 
 export default function TestimonialsSection({
   data,
-  testimonials = MOCK_TESTIMONIALS,
+  testimonials,
 }: {
   data: TestimonialsSectionData;
   testimonials?: TestimonialCMS[];
@@ -27,7 +27,7 @@ export default function TestimonialsSection({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {testimonials.map((test, idx) => (
+          {testimonials?.map((test, idx) => (
             <motion.div
               key={test._id}
               initial={{ opacity: 0, y: 30 }}
@@ -44,9 +44,20 @@ export default function TestimonialsSection({
               </div>
 
               <div className="border-t border-[#B89A62]/10 pt-4 flex justify-between items-center text-xs">
-                <div>
-                  <h4 className="font-medium text-[#F5F1E8]">{test.guestName}</h4>
-                  <p className="text-[10px] text-[#D8C7AD] font-light">{test.guestLocation}</p>
+                <div className="flex items-center gap-3">
+                  {test.guestImage && (
+                    <div className="w-10 h-10 rounded-full overflow-hidden border border-[#B89A62]/30 flex-shrink-0 relative">
+                      <SanityImg
+                        source={test.guestImage}
+                        alt={test.guestName}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <h4 className="font-medium text-[#F5F1E8]">{test.guestName}</h4>
+                    <p className="text-[10px] text-[#D8C7AD] font-light">{test.guestLocation}</p>
+                  </div>
                 </div>
                 <span className="text-[9px] uppercase tracking-widest text-[#B89A62] border border-[#B89A62]/20 px-2 py-0.5">
                   {test.source}
@@ -59,3 +70,4 @@ export default function TestimonialsSection({
     </section>
   );
 }
+

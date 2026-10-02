@@ -8,7 +8,7 @@ export const promotion = defineType({
     defineField({ name: "title", title: "Promotion Title", type: "string", validation: (r) => r.required() }),
     defineField({ name: "description", title: "Offer Description", type: "text", rows: 3 }),
     defineField({ name: "image", title: "Promotion Banner Image", type: "image" }),
-    defineField({ name: "videoUrl", title: "Promotion Video URL", type: "url" }),
+    defineField({ name: "video", title: "Promotion Video", type: "file", options: { accept: "video/*" } }),
     defineField({ name: "ctaLabel", title: "CTA Button Text", type: "string", initialValue: "Claim Offer" }),
     defineField({ name: "ctaUrl", title: "CTA Target URL", type: "string", initialValue: "/booking" }),
     defineField({ name: "validFrom", title: "Valid From (Date)", type: "date" }),

@@ -55,8 +55,8 @@ export interface RoomCMS {
   shortDescription: string;
   description?: string;
   featured?: boolean;
-  heroImage: string | SanityImage;
-  gallery?: (string | SanityImage)[];
+  heroImage: SanityImage | string;
+  gallery?: (SanityImage | string)[];
   capacity: number;
   beds: string;
   bathrooms: string;
@@ -75,9 +75,9 @@ export interface ExperienceCMS {
   category: 'Coastal' | 'Adventure' | 'Cultural' | 'Wellness' | 'Dining';
   shortDescription: string;
   description?: string;
-  heroImage: string | SanityImage;
-  gallery?: (string | SanityImage)[];
-  videoUrl?: string;
+  heroImage: SanityImage | string;
+  gallery?: (SanityImage | string)[];
+  video?: SanityFile;
   duration: string;
   location: string;
   featured?: boolean;
@@ -98,9 +98,9 @@ export interface TestimonialCMS {
 export interface GalleryItemCMS {
   _id: string;
   title: string;
-  media: string | SanityImage;
+  media: SanityImage | string;
   type: 'image' | 'video';
-  videoUrl?: string;
+  video?: SanityFile;
   caption?: string;
   category: 'Architectural' | 'Rooms' | 'Varkala' | 'Dining' | 'Slow Living';
   featured?: boolean;
@@ -111,8 +111,8 @@ export interface PromotionCMS {
   _id: string;
   title: string;
   description: string;
-  image?: string | SanityImage;
-  videoUrl?: string;
+  image?: SanityImage;
+  video?: SanityFile;
   ctaLabel: string;
   ctaUrl: string;
   validFrom: string;
@@ -130,35 +130,35 @@ export interface SectionBase {
 }
 
 export interface HeroSectionData extends SectionBase {
-  _type: 'hero';
+  _type: 'heroSection';
   eyebrow?: string;
   heading: string;
   subtitle?: string;
-  desktopVideoUrl?: string;
-  mobileVideoUrl?: string;
-  posterImage?: string | SanityImage;
+  desktopVideo?: SanityFile | string;
+  mobileVideo?: SanityFile | string;
+  posterImage?: SanityImage | string;
   primaryCtaText?: string;
   secondaryCtaText?: string;
 }
 
 export interface BookingBarSectionData extends SectionBase {
-  _type: 'bookingBar';
+  _type: 'bookingBarSection';
   title?: string;
   subtext?: string;
 }
 
 export interface EditorialSectionData extends SectionBase {
-  _type: 'editorial';
+  _type: 'editorialSection';
   eyebrow?: string;
   title: string;
   bodyParagraphs: string[];
-  imageUrl: string;
+  image?: SanityImage | string;
   imageCaption?: string;
   quote?: string;
 }
 
 export interface RoomShowcaseSectionData extends SectionBase {
-  _type: 'roomShowcase';
+  _type: 'roomShowcaseSection';
   eyebrow?: string;
   title: string;
   subtitle?: string;
@@ -169,20 +169,20 @@ export interface StoryScene {
   title: string;
   subtitle: string;
   description: string;
-  mediaUrl: string;
+  media: SanityImage | string;
   mediaType: 'image' | 'video';
   durationSeconds?: number;
 }
 
 export interface StoryScrollerSectionData extends SectionBase {
-  _type: 'storyScroller';
+  _type: 'storyScrollerSection';
   eyebrow?: string;
   title?: string;
   scenes: StoryScene[];
 }
 
 export interface ExperienceGridSectionData extends SectionBase {
-  _type: 'experienceGrid';
+  _type: 'experienceGridSection';
   eyebrow?: string;
   title: string;
   subtitle?: string;
@@ -197,7 +197,7 @@ export interface TimelineItem {
 }
 
 export interface DayTimelineSectionData extends SectionBase {
-  _type: 'dayTimeline';
+  _type: 'dayTimelineSection';
   eyebrow?: string;
   title: string;
   subtitle?: string;
@@ -205,20 +205,20 @@ export interface DayTimelineSectionData extends SectionBase {
 }
 
 export interface GallerySectionData extends SectionBase {
-  _type: 'gallery';
+  _type: 'gallerySection';
   eyebrow?: string;
   title: string;
   subtitle?: string;
 }
 
 export interface TestimonialsSectionData extends SectionBase {
-  _type: 'testimonials';
+  _type: 'testimonialsSection';
   eyebrow?: string;
   title: string;
 }
 
 export interface LocationSectionData extends SectionBase {
-  _type: 'location';
+  _type: 'locationSection';
   eyebrow?: string;
   title: string;
   description: string;
@@ -228,17 +228,17 @@ export interface LocationSectionData extends SectionBase {
 }
 
 export interface PromotionSectionData extends SectionBase {
-  _type: 'promotion';
+  _type: 'promotionSection';
   promotionRef?: PromotionCMS;
 }
 
 export interface FinalCtaSectionData extends SectionBase {
-  _type: 'finalCta';
+  _type: 'finalCtaSection';
   eyebrow?: string;
   heading: string;
   subtitle?: string;
   buttonText?: string;
-  backgroundImageUrl?: string;
+  backgroundImage?: SanityImage | string;
 }
 
 export type HomeSection =

@@ -54,7 +54,7 @@ export default function LocationSection({ data }: { data: LocationSectionData })
           transition={{ duration: 0.8 }}
           className="lg:col-span-6 space-y-4"
         >
-          {data.landmarks.map((lm, i) => (
+          {data.landmarks?.map((lm, i) => (
             <div
               key={i}
               className="bg-[#1C1A17] border border-[#B89A62]/20 p-5 flex items-center justify-between hover:border-[#B89A62]/40 transition-colors"

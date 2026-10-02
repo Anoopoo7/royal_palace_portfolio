@@ -19,7 +19,7 @@ export const experience = defineType({
     defineField({ name: "description", title: "Full Description", type: "text", rows: 5 }),
     defineField({ name: "heroImage", title: "Hero Image", type: "image", options: { hotspot: true } }),
     defineField({ name: "gallery", title: "Gallery Images", type: "array", of: [{ type: "image" }] }),
-    defineField({ name: "videoUrl", title: "Video URL", type: "url" }),
+    defineField({ name: "video", title: "Experience Video", type: "file", options: { accept: "video/*" } }),
     defineField({ name: "duration", title: "Duration", type: "string" }),
     defineField({ name: "location", title: "Location", type: "string" }),
     defineField({ name: "featured", title: "Featured on Home", type: "boolean", initialValue: false }),

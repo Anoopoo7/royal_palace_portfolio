@@ -21,7 +21,7 @@ export const MOCK_SITE_SETTINGS: SiteSettings = {
   facebookUrl: "https://facebook.com/royalpalacevarkala",
   defaultSeoTitle: "Royal Palace | Luxury Resort Homestay in Varkala, Kerala",
   defaultSeoDescription:
-    "A private boutique resort homestay overlooking the cliff & coast of Varkala, Kerala. Quiet luxury, tropical elegance, cinematic slow living.",
+    "A private boutique resort homestay overlooking the cliff & coast of Varkala, Kerala. Quiet luxury, tropical elegance, cinematic slow living...",
 };
 
 export const MOCK_NAVIGATION: NavItem[] = [
@@ -252,26 +252,26 @@ export const MOCK_PROMOTION: PromotionCMS = {
 export const MOCK_HOME_SECTIONS: HomeSection[] = [
   {
     _key: "sec-hero",
-    _type: "hero",
+    _type: "heroSection",
     enabled: true,
     order: 1,
     eyebrow: "PRIVATE RESORT HOMESTAY • VARKALA, KERALA",
     heading: "A Private Stay Overlooking the Arabian Sea",
     subtitle: "More than a stay — the starting point for an authentic Varkala slow living experience.",
-    desktopVideoUrl: "https://assets.mixkit.co/videos/preview/mixkit-waves-coming-to-the-beach-5016-large.mp4",
+    desktopVideo: "https://assets.mixkit.co/videos/preview/mixkit-waves-coming-to-the-beach-5016-large.mp4",
     posterImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
     primaryCtaText: "CHECK AVAILABILITY",
     secondaryCtaText: "DISCOVER THE STAY",
   },
   {
     _key: "sec-booking-bar",
-    _type: "bookingBar",
+    _type: "bookingBarSection",
     enabled: true,
     order: 2,
   },
   {
     _key: "sec-editorial",
-    _type: "editorial",
+    _type: "editorialSection",
     enabled: true,
     order: 3,
     eyebrow: "SLOW HOSPITALITY IN KERALA",
@@ -280,13 +280,13 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
       "Set atop the iconic cliffs of Varkala where ancient red earth meets the deep blue Arabian ocean, Royal Palace is a private boutique sanctuary crafted for thoughtful travelers.",
       "Here, days unfold with intention: soft sea air blowing through teak shutters, fresh coconut water served on sunlit verandas, and quiet evenings watching the sun dip into the horizon.",
     ],
-    imageUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
     imageCaption: "Royal Cliff Suite Veranda overlooking Varkala Coast",
     quote: "Quiet luxury born from Kerala wood, sea salt, and unhurried time.",
   },
   {
     _key: "sec-rooms",
-    _type: "roomShowcase",
+    _type: "roomShowcaseSection",
     enabled: true,
     order: 4,
     eyebrow: "PRIVATE ACCOMMODATION",
@@ -295,7 +295,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
   },
   {
     _key: "sec-story",
-    _type: "storyScroller",
+    _type: "storyScrollerSection",
     enabled: true,
     order: 5,
     eyebrow: "THE CINEMATIC JOURNEY",
@@ -306,7 +306,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
         title: "MORNING COFFEE",
         subtitle: "07:00 AM • THE VERANDA",
         description: "Freshly ground South Indian filter coffee served in warm clay pots as morning mist clears off the palm canopy.",
-        mediaUrl: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=80",
+        media: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=1200&q=80",
         mediaType: "image",
       },
       {
@@ -314,7 +314,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
         title: "YOUR PRIVATE SUITE",
         subtitle: "10:00 AM • ARCHITECTURAL STILLNESS",
         description: "High ceilings, natural linen, and hand-carved teak wood bathed in soft coastal illumination.",
-        mediaUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
+        media: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
         mediaType: "image",
       },
       {
@@ -322,7 +322,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
         title: "BACKWATER KAYAKING",
         subtitle: "03:30 PM • EDAVA LAGOON",
         description: "Glide under palm tree arches along silent backwaters where river waters flow gently into the sea.",
-        mediaUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
+        media: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
         mediaType: "image",
       },
       {
@@ -330,14 +330,14 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
         title: "CLIFFSIDE GOLDEN HOUR",
         subtitle: "05:45 PM • VARKALA CLIFF",
         description: "Watch the red cliffs turn deep crimson while fishermen bring in evening nets against a violet sky.",
-        mediaUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        media: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
         mediaType: "image",
       },
     ],
   },
   {
     _key: "sec-exp",
-    _type: "experienceGrid",
+    _type: "experienceGridSection",
     enabled: true,
     order: 6,
     eyebrow: "CURATED EXPERIENCES",
@@ -346,7 +346,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
   },
   {
     _key: "sec-timeline",
-    _type: "dayTimeline",
+    _type: "dayTimelineSection",
     enabled: true,
     order: 7,
     eyebrow: "DAILY RHYTHM",
@@ -393,7 +393,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
   },
   {
     _key: "sec-gallery",
-    _type: "gallery",
+    _type: "gallerySection",
     enabled: true,
     order: 8,
     eyebrow: "VISUAL JOURNAL",
@@ -402,7 +402,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
   },
   {
     _key: "sec-testimonials",
-    _type: "testimonials",
+    _type: "testimonialsSection",
     enabled: true,
     order: 9,
     eyebrow: "GUEST REVIEWS",
@@ -410,7 +410,7 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
   },
   {
     _key: "sec-location",
-    _type: "location",
+    _type: "locationSection",
     enabled: true,
     order: 10,
     eyebrow: "LOCATION & SURROUNDINGS",
@@ -427,20 +427,20 @@ export const MOCK_HOME_SECTIONS: HomeSection[] = [
   },
   {
     _key: "sec-promotion",
-    _type: "promotion",
+    _type: "promotionSection",
     enabled: true,
     order: 11,
     promotionRef: MOCK_PROMOTION,
   },
   {
     _key: "sec-final-cta",
-    _type: "finalCta",
+    _type: "finalCtaSection",
     enabled: true,
     order: 12,
     eyebrow: "YOUR VARKALA STORY BEGINS HERE",
     heading: "Experience Quiet Luxury on the Kerala Coast",
     subtitle: "Reserve your private suite or villa at Royal Palace Varkala.",
     buttonText: "CHECK AVAILABILITY",
-    backgroundImageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
+    backgroundImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
   },
 ];

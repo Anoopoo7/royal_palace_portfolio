@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Compass, Clock, MapPin, ArrowRight } from "lucide-react";
+import { Clock, MapPin, ArrowRight } from "lucide-react";
 import { ExperienceGridSectionData, ExperienceCMS } from "@/lib/sanity/types";
 import { MOCK_EXPERIENCES } from "@/lib/mock-data";
+import SanityImg from "@/components/ui/SanityImg";
 
 export default function ExperienceGridSection({
   data,
@@ -49,8 +50,9 @@ export default function ExperienceGridSection({
             >
               <div>
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img
-                    src={exp.heroImage as string}
+                  <SanityImg
+                    source={exp.heroImage}
+                    options={{ width: 800, quality: 80 }}
                     alt={exp.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
