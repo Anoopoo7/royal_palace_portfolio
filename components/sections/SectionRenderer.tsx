@@ -32,8 +32,6 @@ export default function SectionRenderer({
   promotion,
 }: SectionRendererProps) {
   if (!sections || sections.length === 0) return null;
-  console.log(sections);
-
   return (
     <div className="w-full">
       {sections.map((section) => {

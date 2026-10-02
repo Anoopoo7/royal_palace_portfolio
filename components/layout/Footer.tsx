@@ -2,10 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MOCK_SITE_SETTINGS, MOCK_NAVIGATION } from "@/lib/mock-data";
+import { MOCK_NAVIGATION } from "@/lib/mock-data";
+import SanityImg from "@/components/ui/SanityImg";
+import type { SiteSettings, NavItem } from "@/lib/sanity/types";
 
-export default function Footer() {
+interface FooterProps {
+  settings: SiteSettings;
+  navigation: NavItem[];
+}
+
+export default function Footer({ settings, navigation }: FooterProps) {
   const pathname = usePathname();
+  const navItems = navigation.length > 0 ? navigation : MOCK_NAVIGATION;
 
   if (pathname?.startsWith("/studio")) {
     return null;
@@ -17,15 +25,27 @@ export default function Footer() {
         {/* Brand Statement */}
         <div className="md:col-span-5 space-y-4">
           <Link href="/" className="inline-block">
-            <span className="font-serif-editorial text-2xl tracking-[0.25em] text-[#F5F1E8]">
-              ROYAL PALACE
-            </span>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[#D8C7AD] mt-1">
-              Private Resort Homestay • Varkala
-            </p>
+            {settings.logo?.asset?._ref ? (
+              <SanityImg
+                source={settings.logo}
+                options={{ height: 52 }}
+                alt={settings.propertyName ?? "Royal Palace"}
+                className="h-11 w-auto object-contain"
+              />
+            ) : (
+              <>
+                <span className="font-serif-editorial text-2xl tracking-[0.25em] text-[#F5F1E8]">
+                  {settings.propertyName ?? "ROYAL PALACE"}
+                </span>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-[#D8C7AD] mt-1">
+                  Private Resort Homestay • Varkala
+                </p>
+              </>
+            )}
           </Link>
           <p className="text-sm text-[#F5F1E8]/70 leading-relaxed max-w-md font-light">
-            A private luxury resort homestay on the red clay cliffs of Varkala, Kerala. Engineered for silent luxury, authentic coastal dining, and unhurried tropical living.
+            {settings.tagline ??
+              "A private luxury resort homestay on the red clay cliffs of Varkala, Kerala. Engineered for silent luxury, authentic coastal dining, and unhurried tropical living."}
           </p>
         </div>
 
@@ -35,8 +55,8 @@ export default function Footer() {
             Navigation
           </h4>
           <ul className="space-y-2 text-xs tracking-wider">
-            {MOCK_NAVIGATION.map((nav) => (
-              <li key={nav._key}>
+            {navItems.map((nav, index) => (
+              <li key={`${nav._key}-${index}`}>
                 <Link
                   href={nav.url}
                   className="text-[#F5F1E8]/70 hover:text-[#B89A62] transition-colors"
@@ -56,49 +76,57 @@ export default function Footer() {
         {/* Contact Information */}
         <div className="md:col-span-4 space-y-4">
           <h4 className="text-xs uppercase tracking-[0.25em] text-[#B89A62] font-semibold">
-            Location & Contact
+            Location &amp; Contact
           </h4>
           <div className="space-y-2 text-xs text-[#F5F1E8]/70 font-light leading-relaxed">
-            <p>{MOCK_SITE_SETTINGS.address}</p>
-            <p>
-              Phone:{" "}
-              <a href={`tel:${MOCK_SITE_SETTINGS.phone}`} className="hover:text-[#B89A62]">
-                {MOCK_SITE_SETTINGS.phone}
-              </a>
-            </p>
-            <p>
-              Email:{" "}
-              <a href={`mailto:${MOCK_SITE_SETTINGS.email}`} className="hover:text-[#B89A62]">
-                {MOCK_SITE_SETTINGS.email}
-              </a>
-            </p>
-            <div className="pt-2 flex space-x-4">
-              <a
-                href={MOCK_SITE_SETTINGS.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors"
-              >
-                Instagram
-              </a>
-              <span>•</span>
-              <a
-                href={MOCK_SITE_SETTINGS.facebookUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors"
-              >
-                Facebook
-              </a>
-              <span>•</span>
-              <a
-                href={MOCK_SITE_SETTINGS.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors"
-              >
-                Google Maps
-              </a>
+            {settings.address && <p>{settings.address}</p>}
+            {settings.phone && (
+              <p>
+                Phone:{" "}
+                <a href={`tel:${settings.phone}`} className="hover:text-[#B89A62]">
+                  {settings.phone}
+                </a>
+              </p>
+            )}
+            {settings.email && (
+              <p>
+                Email:{" "}
+                <a href={`mailto:${settings.email}`} className="hover:text-[#B89A62]">
+                  {settings.email}
+                </a>
+              </p>
+            )}
+            <div className="pt-2 flex flex-wrap gap-x-4 gap-y-1 items-center">
+              {settings.instagramUrl && (
+                <a
+                  href={settings.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors"
+                >
+                  Instagram
+                </a>
+              )}
+              {settings.facebookUrl && (
+                <a
+                  href={settings.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors"
+                >
+                  Facebook
+                </a>
+              )}
+              {settings.googleMapsUrl && (
+                <a
+                  href={settings.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors"
+                >
+                  Google Maps
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -106,7 +134,10 @@ export default function Footer() {
 
       {/* Subfooter */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-8 flex flex-col md:flex-row justify-between items-center text-[11px] text-[#F5F1E8]/40 space-y-4 md:space-y-0 font-light">
-        <p>© {new Date().getFullYear()} ROYAL PALACE VARKALA. All rights reserved.</p>
+        <p>
+          © {new Date().getFullYear()}{" "}
+          {(settings.propertyName ?? "ROYAL PALACE VARKALA").toUpperCase()}. All rights reserved.
+        </p>
         <div className="flex space-x-6">
           <Link href="/privacy" className="hover:text-[#D8C7AD]">
             Privacy Policy

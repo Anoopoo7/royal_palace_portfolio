@@ -5,12 +5,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Calendar, MessageSquare } from "lucide-react";
-import { MOCK_NAVIGATION, MOCK_SITE_SETTINGS } from "@/lib/mock-data";
+import { MOCK_NAVIGATION } from "@/lib/mock-data";
+import SanityImg from "@/components/ui/SanityImg";
+import type { SiteSettings, NavItem } from "@/lib/sanity/types";
 
-export default function Navbar() {
+interface NavbarProps {
+  settings: SiteSettings;
+  navigation: NavItem[];
+}
+
+export default function Navbar({ settings, navigation }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const navItems = navigation.length > 0 ? navigation : MOCK_NAVIGATION;
+  const whatsappNumber = settings.whatsapp?.replace(/\D/g, "") ?? "";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,34 +40,43 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled || !isHome
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || !isHome
             ? "bg-[#171513]/90 backdrop-blur-md border-b border-[#B89A62]/20 py-4 shadow-xl"
             : "bg-gradient-to-b from-[#171513]/80 via-[#171513]/30 to-transparent py-6"
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
           {/* Brand Logo */}
-          <Link href="/" className="group flex flex-col">
-            <span className="font-serif-editorial text-xl md:text-2xl font-light tracking-[0.2em] text-[#F5F1E8] group-hover:text-[#B89A62] transition-colors">
-              ROYAL PALACE
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.3em] text-[#D8C7AD] font-sans">
-              Varkala • Kerala
-            </span>
+          <Link href="/" className="group flex items-center gap-3">
+            {settings.logo?.asset?._ref ? (
+              <SanityImg
+                source={settings.logo}
+                options={{ height: 48 }}
+                alt={settings.propertyName ?? "Royal Palace"}
+                className="h-10 md:h-12 w-auto object-contain"
+              />
+            ) : (
+              <span className="flex flex-col">
+                <span className="font-serif-editorial text-xl md:text-2xl font-light tracking-[0.2em] text-[#F5F1E8] group-hover:text-[#B89A62] transition-colors">
+                  {settings.propertyName ?? "ROYAL PALACE"}
+                </span>
+                <span className="text-[9px] uppercase tracking-[0.3em] text-[#D8C7AD] font-sans">
+                  Varkala • Kerala
+                </span>
+              </span>
+            )}
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {MOCK_NAVIGATION.map((item) => {
+            {navItems.map((item, index) => {
               const active = pathname === item.url;
               return (
                 <Link
-                  key={item._key}
+                  key={`${item._key}-${index}`}
                   href={item.url}
-                  className={`text-xs uppercase tracking-[0.2em] transition-colors relative py-1 ${
-                    active ? "text-[#B89A62]" : "text-[#F5F1E8]/80 hover:text-[#F5F1E8]"
-                  }`}
+                  className={`text-xs uppercase tracking-[0.2em] transition-colors relative py-1 ${active ? "text-[#B89A62]" : "text-[#F5F1E8]/80 hover:text-[#F5F1E8]"
+                    }`}
                 >
                   {item.label}
                   {active && (
@@ -73,15 +92,17 @@ export default function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center space-x-5">
-            <a
-              href={`https://wa.me/${MOCK_SITE_SETTINGS.whatsapp.replace(/\D/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors p-2"
-              title="WhatsApp Concierge"
-            >
-              <MessageSquare className="w-4 h-4" />
-            </a>
+            {whatsappNumber && (
+              <a
+                href={`https://wa.me/${whatsappNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors p-2"
+                title="WhatsApp Concierge"
+              >
+                <MessageSquare className="w-4 h-4" />
+              </a>
+            )}
 
             <Link
               href="/booking"
@@ -121,8 +142,26 @@ export default function Navbar() {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-40 bg-[#171513] flex flex-col justify-between p-8 pt-24"
           >
+            {/* Mobile menu logo */}
+            <div className="absolute top-6 left-8">
+              <Link href="/" onClick={() => setMobileMenuOpen(false)}>
+                {settings.logo?.asset?._ref ? (
+                  <SanityImg
+                    source={settings.logo}
+                    options={{ height: 40 }}
+                    alt={settings.propertyName ?? "Royal Palace"}
+                    className="h-9 w-auto object-contain"
+                  />
+                ) : (
+                  <span className="font-serif-editorial text-xl text-[#F5F1E8]">
+                    {settings.propertyName ?? "ROYAL PALACE"}
+                  </span>
+                )}
+              </Link>
+            </div>
+
             <div className="flex flex-col space-y-6">
-              {MOCK_NAVIGATION.map((item, index) => (
+              {navItems.map((item, index) => (
                 <motion.div
                   key={item._key}
                   initial={{ opacity: 0, x: -20 }}
@@ -150,12 +189,11 @@ export default function Navbar() {
               </Link>
               <div className="flex justify-between text-xs text-[#D8C7AD] pt-2">
                 <span>Varkala, Kerala, India</span>
-                <a
-                  href={`tel:${MOCK_SITE_SETTINGS.phone}`}
-                  className="hover:text-[#B89A62]"
-                >
-                  {MOCK_SITE_SETTINGS.phone}
-                </a>
+                {settings.phone && (
+                  <a href={`tel:${settings.phone}`} className="hover:text-[#B89A62]">
+                    {settings.phone}
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>

@@ -331,4 +331,4 @@ const ndjsonContent = documents.map((doc) => JSON.stringify(doc)).join("\n");
 const outputPath = path.join(__dirname, "..", "seed-data.ndjson");
 
 fs.writeFileSync(outputPath, ndjsonContent, "utf-8");
-console.log(`Successfully generated NDJSON import file with ${documents.length} documents at ${outputPath}`);
+console.info(`Successfully generated NDJSON import file with ${documents.length} documents at ${outputPath}`);

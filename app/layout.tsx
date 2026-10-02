@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { getSiteSettings, getNavigation } from "@/lib/sanity/queries";
 import "./globals.css";
 
 const serifFont = Cormorant_Garamond({
@@ -49,11 +50,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [settings, navigation] = await Promise.all([getSiteSettings(), getNavigation()]);
+
   return (
     <html
       lang="en"
@@ -66,7 +69,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "LodgingBusiness",
-              name: "Royal Palace Varkala",
+              name: settings.propertyName ?? "Royal Palace Varkala",
               description:
                 "A premium boutique resort homestay in Varkala, Kerala offering private luxury rooms, tropical calm, and curated coastal experiences.",
               address: {
@@ -81,16 +84,16 @@ export default function RootLayout({
                 longitude: "76.7163",
               },
               url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-              telephone: "+91 98765 43210",
+              telephone: settings.phone ?? "+91 98765 43210",
               priceRange: "₹₹₹",
             }),
           }}
         />
       </head>
       <body className="min-h-full flex flex-col bg-[#171513] text-[#F5F1E8] font-sans">
-        <Navbar />
+        <Navbar settings={settings} navigation={navigation} />
         <main className="flex-1 w-full">{children}</main>
-        <Footer />
+        <Footer settings={settings} navigation={navigation} />
       </body>
     </html>
   );
