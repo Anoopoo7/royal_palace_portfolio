@@ -305,8 +305,8 @@ export default function UserAccountPage() {
     filterTab === "upcoming"
       ? upcomingBookings
       : filterTab === "past"
-      ? pastBookings
-      : bookings;
+        ? pastBookings
+        : bookings;
 
   return (
     <div className="pt-28 md:pt-36 pb-24 bg-[#171513] text-[#F5F1E8] min-h-screen">
@@ -573,17 +573,16 @@ export default function UserAccountPage() {
                 <button
                   key={tab}
                   onClick={() => setFilterTab(tab)}
-                  className={`text-xs uppercase tracking-[0.2em] py-1.5 px-3 transition-colors cursor-pointer border-b-2 -mb-3 ${
-                    filterTab === tab
+                  className={`text-xs uppercase tracking-[0.2em] py-1.5 px-3 transition-colors cursor-pointer border-b-2 -mb-3 ${filterTab === tab
                       ? "border-[#B89A62] text-[#B89A62] font-semibold"
                       : "border-transparent text-[#D8C7AD]/50 hover:text-[#F5F1E8]"
-                  }`}
+                    }`}
                 >
                   {tab === "all"
                     ? `All Bookings (${bookings.length})`
                     : tab === "upcoming"
-                    ? `Upcoming (${upcomingBookings.length})`
-                    : `Past / Cancelled (${pastBookings.length})`}
+                      ? `Upcoming (${upcomingBookings.length})`
+                      : `Past / Cancelled (${pastBookings.length})`}
                 </button>
               ))}
             </div>
@@ -608,7 +607,7 @@ export default function UserAccountPage() {
                   </p>
                 </div>
                 <Link
-                  href="/booking"
+                  href="/availability"
                   className="px-6 py-3 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-widest uppercase hover:bg-[#D4B67E] transition-all inline-flex items-center gap-2"
                 >
                   <Calendar className="w-3.5 h-3.5" />

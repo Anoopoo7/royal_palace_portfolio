@@ -64,7 +64,7 @@ export default async function AboutPage() {
             </p>
           )}
           <Link
-            href="/booking"
+            href="/availability"
             className="inline-block px-8 py-3.5 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#D4B67E] transition-all"
           >
             {pageData.ctaButtonText || "Check Room Availability"}

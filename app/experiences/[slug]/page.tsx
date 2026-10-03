@@ -111,7 +111,7 @@ export default async function ExperienceDetailPage(props: { params: Promise<{ sl
             </p>
           </div>
           <Link
-            href="/booking"
+            href="/availability"
             className="px-8 py-3.5 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#D4B67E] transition-all whitespace-nowrap"
           >
             {exp.ctaText || "Book Room & Experience"}

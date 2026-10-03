@@ -41,8 +41,8 @@ export default function Navbar({ settings, navigation }: NavbarProps) {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled || !isHome
-            ? "bg-[#171513]/90 backdrop-blur-md border-b border-[#B89A62]/20 py-4 shadow-xl"
-            : "bg-gradient-to-b from-[#171513]/80 via-[#171513]/30 to-transparent py-6"
+          ? "bg-[#171513]/90 backdrop-blur-md border-b border-[#B89A62]/20 py-4 shadow-xl"
+          : "bg-gradient-to-b from-[#171513]/80 via-[#171513]/30 to-transparent py-6"
           }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -125,7 +125,7 @@ export default function Navbar({ settings, navigation }: NavbarProps) {
           {/* Mobile Hamburger Toggle */}
           <div className="lg:hidden flex items-center gap-3">
             <Link
-              href="/booking"
+              href="/availability"
               className="px-3.5 py-1.5 bg-[#B89A62] text-[#171513] text-[10px] font-semibold tracking-wider uppercase"
             >
               Book
@@ -186,11 +186,25 @@ export default function Navbar({ settings, navigation }: NavbarProps) {
                   </Link>
                 </motion.div>
               ))}
+              <motion.div
+                key={"account"}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + navItems.length * 0.05 }}
+              >
+                <Link
+                  href='/account'
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="font-serif-editorial text-3xl text-[#F5F1E8] hover:text-[#B89A62] transition-colors"
+                >
+                  Account
+                </Link>
+              </motion.div>
             </div>
 
             <div className="border-t border-[#B89A62]/20 pt-6 space-y-4">
               <Link
-                href="/booking"
+                href="/availability"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-4 bg-[#B89A62] text-[#171513] text-center text-xs font-semibold tracking-[0.2em] uppercase block"
               >
