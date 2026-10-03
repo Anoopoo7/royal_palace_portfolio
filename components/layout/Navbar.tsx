@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Calendar, MessageSquare } from "lucide-react";
+import { Menu, X, Calendar, MessageSquare, User } from "lucide-react";
 import { MOCK_NAVIGATION } from "@/lib/mock-data";
 import SanityImg from "@/components/ui/SanityImg";
 import type { SiteSettings, NavItem } from "@/lib/sanity/types";
@@ -103,6 +103,15 @@ export default function Navbar({ settings, navigation }: NavbarProps) {
                 <MessageSquare className="w-4 h-4" />
               </a>
             )}
+
+            <Link
+              href="/account"
+              className="text-[#D8C7AD] hover:text-[#B89A62] transition-colors p-2 flex items-center gap-1.5 text-xs uppercase tracking-wider"
+              title="My Account & Bookings"
+            >
+              <User className="w-4 h-4 text-[#B89A62]" />
+              <span>Account</span>
+            </Link>
 
             <Link
               href="/booking"

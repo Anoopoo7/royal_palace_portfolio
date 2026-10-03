@@ -43,9 +43,23 @@ export async function GET(
         currency: booking.currency,
         guestName: booking.guestName,
         guestEmail: booking.guestEmail,
+        guestPhone: booking.guestPhone,
         numberOfGuests: booking.numberOfGuests,
         specialRequests: booking.specialRequests,
         status: booking.status,
+        payment: booking.payment
+          ? {
+              method: booking.payment.method,
+              provider: booking.payment.provider,
+              status: booking.payment.status,
+              totalAmount: booking.payment.totalAmount,
+              requiredAmount: booking.payment.requiredAmount,
+              paidAmount: booking.payment.paidAmount,
+              remainingAmount: booking.payment.remainingAmount,
+              currency: booking.payment.currency,
+              razorpayPaymentId: booking.payment.razorpayPaymentId,
+            }
+          : undefined,
         createdAt: booking.createdAt,
       },
     });

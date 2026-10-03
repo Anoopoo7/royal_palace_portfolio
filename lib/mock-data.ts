@@ -35,6 +35,7 @@ export const MOCK_NAVIGATION: NavItem[] = [
   { _key: "nav-4", label: "Gallery", url: "/gallery", visible: true, order: 4 },
   { _key: "nav-5", label: "About", url: "/about", visible: true, order: 5 },
   { _key: "nav-6", label: "Contact", url: "/contact", visible: true, order: 6 },
+  { _key: "nav-7", label: "My Account", url: "/account", visible: true, order: 7 },
 ];
 
 export const MOCK_ROOMS: RoomCMS[] = [

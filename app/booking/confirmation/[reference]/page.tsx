@@ -188,18 +188,21 @@ export default function BookingConfirmationPage() {
               <div className="flex justify-between items-center pt-2 border-t border-[#B89A62]/20">
                 <div>
                   <span className="text-xs uppercase tracking-widest text-[#D8C7AD] block">
-                    {booking.payment?.remainingAmount && booking.payment.remainingAmount > 0
+                    {(booking.payment?.remainingAmount ?? (booking.payment?.method === "pay_later" ? booking.totalAmount : 0)) > 0
                       ? "Balance Due on Arrival"
                       : "Balance Due"}
                   </span>
                   <span className="text-[10px] text-[#D8C7AD]/50">
-                    {booking.payment?.remainingAmount && booking.payment.remainingAmount > 0
+                    {(booking.payment?.remainingAmount ?? (booking.payment?.method === "pay_later" ? booking.totalAmount : 0)) > 0
                       ? "Payable at Royal Palace Home Stay"
                       : "Fully settled online"}
                   </span>
                 </div>
                 <span className="font-serif-editorial text-2xl text-[#B89A62]">
-                  {formatINR(booking.payment?.remainingAmount ?? (booking.payment?.method === "pay_later" ? booking.totalAmount : 0))}
+                  {formatINR(
+                    booking.payment?.remainingAmount ??
+                      (booking.payment?.method === "pay_later" ? booking.totalAmount : 0)
+                  )}
                 </span>
               </div>
             </div>
