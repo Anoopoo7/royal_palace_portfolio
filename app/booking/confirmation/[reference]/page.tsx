@@ -151,7 +151,7 @@ export default function BookingConfirmationPage() {
 
           {/* Price breakdown */}
           <div className="space-y-1.5 pt-4 border-t border-[#B89A62]/10">
-            <p className="text-[9px] uppercase tracking-wider text-[#D8C7AD]/50 mb-3">Price Breakdown</p>
+            <p className="text-[9px] uppercase tracking-wider text-[#D8C7AD]/50 mb-3">Price & Payment Summary</p>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {booking.nightlyBreakdown.map((n) => (
                 <div key={n.date} className="flex justify-between text-xs">
@@ -160,11 +160,48 @@ export default function BookingConfirmationPage() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-between items-center pt-3 border-t border-[#B89A62]/20 mt-2">
-              <span className="text-xs uppercase tracking-widest text-[#D8C7AD]">Total Paid on Arrival</span>
-              <span className="font-serif-editorial text-2xl text-[#B89A62]">
-                {formatINR(booking.totalAmount)}
-              </span>
+
+            <div className="pt-3 border-t border-[#B89A62]/15 space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-[#D8C7AD]/60">Total Stay</span>
+                <span className="text-[#F5F1E8] font-medium">{formatINR(booking.totalAmount)}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-[#D8C7AD]/60">Payment Option</span>
+                <span className="text-[#B89A62] uppercase tracking-wider text-[11px] font-medium">
+                  {booking.payment?.method === "advance"
+                    ? "50% Advance Paid Online"
+                    : booking.payment?.method === "full"
+                    ? "Paid in Full Online"
+                    : "Pay at Property"}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-[#D8C7AD]/60">Amount Paid Online</span>
+                <span className="text-green-400 font-medium">
+                  {formatINR(booking.payment?.paidAmount ?? 0)}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center pt-2 border-t border-[#B89A62]/20">
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-[#D8C7AD] block">
+                    {booking.payment?.remainingAmount && booking.payment.remainingAmount > 0
+                      ? "Balance Due on Arrival"
+                      : "Balance Due"}
+                  </span>
+                  <span className="text-[10px] text-[#D8C7AD]/50">
+                    {booking.payment?.remainingAmount && booking.payment.remainingAmount > 0
+                      ? "Payable at Royal Palace Home Stay"
+                      : "Fully settled online"}
+                  </span>
+                </div>
+                <span className="font-serif-editorial text-2xl text-[#B89A62]">
+                  {formatINR(booking.payment?.remainingAmount ?? (booking.payment?.method === "pay_later" ? booking.totalAmount : 0))}
+                </span>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -176,8 +213,8 @@ export default function BookingConfirmationPage() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center space-y-4"
         >
-          <p className="text-xs text-[#D8C7AD]/50 font-light max-w-sm mx-auto leading-relaxed">
-            A confirmation will be shared via WhatsApp or email. Payment is due on arrival at the property.
+          <p className="text-xs text-[#D8C7AD]/60 font-light max-w-sm mx-auto leading-relaxed">
+            Your Royal Palace stay is confirmed. A receipt and confirmation has been registered for your reservation.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a

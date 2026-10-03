@@ -18,6 +18,7 @@ const BookingSchema = z.object({
   guestPhone: z.string().min(8, "Valid phone number is required").max(20),
   numberOfGuests: z.number().int().min(1).max(20),
   specialRequests: z.string().max(1000).optional(),
+  paymentMethod: z.enum(["advance", "full", "pay_later"]).optional(),
 });
 
 export async function POST(request: Request) {
@@ -55,6 +56,8 @@ export async function POST(request: Request) {
       guestName: booking.guestName,
       guestEmail: booking.guestEmail,
       status: booking.status,
+      expiresAt: booking.expiresAt,
+      payment: booking.payment,
     });
   } catch (error: unknown) {
     console.error("[POST /api/bookings]", error);

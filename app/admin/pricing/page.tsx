@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Loader2, Save, AlertTriangle, CheckCircle2, RefreshCw, LayoutGrid, Lock, Key, LogOut, ShieldCheck, Clock } from "lucide-react";
 import { formatINR, todayDateStr, addDaysToDateStr, formatDisplayDate, parseDateStr } from "@/lib/booking/dates";
@@ -274,7 +275,13 @@ export default function AdminPricingPage() {
               Set and update daily rates for Royal Palace Home Stay.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/admin/bookings"
+              className="text-xs uppercase tracking-wider text-[#D8C7AD]/60 hover:text-[#B89A62] transition-colors"
+            >
+              Bookings & Payments →
+            </Link>
             {adminToken && remainingMinutes !== null && (
               <div className="flex items-center gap-1.5 text-[11px] text-[#B89A62] bg-[#B89A62]/10 border border-[#B89A62]/20 px-2.5 py-1">
                 <Clock className="w-3 h-3 animate-pulse" />

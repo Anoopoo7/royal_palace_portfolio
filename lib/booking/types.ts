@@ -13,6 +13,56 @@ export interface DailyRate {
   updatedAt: string;
 }
 
+export type BookingStatus =
+  | "pending"
+  | "pending_payment"
+  | "confirmed"
+  | "cancelled"
+  | "expired";
+
+export type PaymentMethod = "advance" | "full" | "pay_later";
+export type PaymentProvider = "razorpay" | "offline";
+
+export type PaymentStatus =
+  | "pending"
+  | "authorized"
+  | "captured"
+  | "partially_paid"
+  | "paid"
+  | "pay_at_property"
+  | "failed"
+  | "refunded"
+  | "partially_refunded";
+
+export interface RefundRecord {
+  razorpayRefundId: string;
+  amount: number; // INR
+  amountPaise: number;
+  currency: "INR";
+  status: "pending" | "processed" | "failed";
+  reason?: string;
+  initiatedAt: string;
+  processedAt?: string;
+}
+
+export interface PaymentDetails {
+  method: PaymentMethod;
+  provider: PaymentProvider;
+  status: PaymentStatus;
+  totalAmount: number;
+  requiredAmount: number;
+  paidAmount: number;
+  remainingAmount: number;
+  refundedAmount?: number;
+  currency: "INR";
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  refunds?: RefundRecord[];
+  lastPaymentAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Booking {
   bookingId: string;
   checkIn: string; // YYYY-MM-DD
@@ -26,11 +76,34 @@ export interface Booking {
   totalAmount: number;
   currency: "INR";
   status: BookingStatus;
+  expiresAt?: string; // ISO string for temporary payment reservation hold
+  payment?: PaymentDetails;
   createdAt: string;
   updatedAt: string;
 }
 
-export type BookingStatus = "pending" | "confirmed" | "cancelled" | "expired";
+export interface BookingAuditLog {
+  action:
+    | "BOOKING_CREATED"
+    | "BOOKING_CONFIRMED"
+    | "BOOKING_CANCELLED"
+    | "PAYMENT_INITIATED"
+    | "PAYMENT_CAPTURED"
+    | "PAYMENT_FAILED"
+    | "PAYMENT_STATUS_UPDATED"
+    | "REFUND_INITIATED"
+    | "REFUND_PROCESSED"
+    | "REFUND_FAILED";
+  bookingId: string;
+  adminUserId?: string;
+  amount?: number;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  razorpayRefundId?: string;
+  reason?: string;
+  metadata?: Record<string, unknown>;
+  timestamp: string;
+}
 
 export interface NightlyRate {
   date: string; // YYYY-MM-DD
