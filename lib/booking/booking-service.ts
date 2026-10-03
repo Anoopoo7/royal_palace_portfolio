@@ -27,6 +27,7 @@ import { getRatesForDates } from "./pricing-service";
 import { calculatePaymentBreakdown } from "./money";
 import { getServerPaymentConfig } from "./payment-config";
 import { logBookingAudit, getBookingAuditLogs } from "./audit-service";
+import { sendOrderConfirmationEmail } from "@/lib/email/histeria-mails";
 
 const DB_NAME = () => process.env.MONGODB_DB_NAME || "royal_palace_homestay_test";
 const COLLECTION = "homestayBookings";
@@ -257,6 +258,12 @@ export async function createHomestayBooking(data: {
       },
     });
 
+    if (!isOnlinePayment) {
+      sendOrderConfirmationEmail(booking).catch((err) =>
+        console.error("[createHomestayBooking] Error sending email:", err)
+      );
+    }
+
     return booking;
   } finally {
     await session.endSession();
@@ -397,6 +404,10 @@ export async function createPaidHomestayBooking(params: {
       },
     });
 
+    sendOrderConfirmationEmail(booking).catch((err) =>
+      console.error("[createPaidHomestayBooking] Error sending email:", err)
+    );
+
     return booking;
   } finally {
     await session.endSession();
@@ -491,7 +502,14 @@ export async function confirmBookingPayment(params: {
     },
   });
 
-  return col.findOne({ bookingId: params.bookingId });
+  const updatedBooking = await col.findOne({ bookingId: params.bookingId });
+  if (updatedBooking) {
+    sendOrderConfirmationEmail(updatedBooking).catch((err) =>
+      console.error("[confirmBookingPayment] Error sending email:", err)
+    );
+  }
+
+  return updatedBooking;
 }
 
 /**
