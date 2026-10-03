@@ -7,13 +7,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { bulkSetDailyRates } from "@/lib/booking/pricing-service";
-
-function isAuthorized(request: Request): boolean {
-  const secret = process.env.ADMIN_SECRET_KEY;
-  if (!secret) return true;
-  const auth = request.headers.get("authorization") ?? "";
-  return auth === `Bearer ${secret}`;
-}
+import { verifyAdminAuth } from "@/lib/booking/admin-auth";
 
 const BulkSchema = z.object({
   from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "from must be YYYY-MM-DD"),
@@ -22,7 +16,7 @@ const BulkSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  if (!isAuthorized(request)) {
+  if (!verifyAdminAuth(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
 

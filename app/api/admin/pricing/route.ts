@@ -17,14 +17,8 @@ import { z } from "zod";
 import { getRatesForRange, setDailyRate } from "@/lib/booking/pricing-service";
 import { getOverlappingBookings } from "@/lib/booking/booking-service";
 import { todayDateStr, addDaysToDateStr, dateRange, isValidDateStr } from "@/lib/booking/dates";
+import { verifyAdminAuth } from "@/lib/booking/admin-auth";
 import type { AdminDayView } from "@/lib/booking/types";
-
-function isAuthorized(request: Request): boolean {
-  const secret = process.env.ADMIN_SECRET_KEY;
-  if (!secret) return true; // dev mode — no secret configured
-  const auth = request.headers.get("authorization") ?? "";
-  return auth === `Bearer ${secret}`;
-}
 
 const SingleRateSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -32,7 +26,7 @@ const SingleRateSchema = z.object({
 });
 
 export async function GET(request: Request) {
-  if (!isAuthorized(request)) {
+  if (!verifyAdminAuth(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
 
@@ -82,7 +76,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!isAuthorized(request)) {
+  if (!verifyAdminAuth(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
 

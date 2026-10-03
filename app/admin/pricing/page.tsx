@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Save, AlertTriangle, CheckCircle2, RefreshCw, LayoutGrid } from "lucide-react";
+import { Loader2, Save, AlertTriangle, CheckCircle2, RefreshCw, LayoutGrid, Lock, Key, LogOut, ShieldCheck, Clock } from "lucide-react";
 import { formatINR, todayDateStr, addDaysToDateStr, formatDisplayDate, parseDateStr } from "@/lib/booking/dates";
 import type { AdminDayView } from "@/lib/booking/types";
 
@@ -18,6 +18,15 @@ export default function AdminPricingPage() {
   const [saveStatus, setSaveStatus] = useState<Record<string, "saving" | "saved" | "error">>({});
   const [editPrices, setEditPrices] = useState<Record<string, string>>({});
 
+  // Auth state (Bearer token with 30-minute expiration)
+  const [adminToken, setAdminToken] = useState<string>("");
+  const [expiresAt, setExpiresAt] = useState<number | null>(null);
+  const [remainingMinutes, setRemainingMinutes] = useState<number | null>(null);
+  const [keyInput, setKeyInput] = useState<string>("");
+  const [keyError, setKeyError] = useState<string | null>(null);
+  const [isVerifyingKey, setIsVerifyingKey] = useState(false);
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
+
   // Bulk tool
   const [bulkFrom, setBulkFrom] = useState(todayDateStr());
   const [bulkTo, setBulkTo] = useState(addDaysToDateStr(todayDateStr(), 6));
@@ -29,13 +38,88 @@ export default function AdminPricingPage() {
   const from = today;
   const to = addDaysToDateStr(today, 89);
 
-  const fetchPricing = useCallback(async () => {
+  // Load token from sessionStorage on client mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = sessionStorage.getItem("rp_admin_token");
+      const storedExp = sessionStorage.getItem("rp_admin_token_exp");
+      if (storedToken && storedExp) {
+        const expNum = Number(storedExp);
+        if (Date.now() < expNum) {
+          setAdminToken(storedToken);
+          setExpiresAt(expNum);
+        } else {
+          sessionStorage.removeItem("rp_admin_token");
+          sessionStorage.removeItem("rp_admin_token_exp");
+          setIsUnauthorized(true);
+          setKeyError("Your 30-minute session has expired. Please re-enter your key.");
+        }
+      }
+    }
+  }, []);
+
+  // Countdown timer & auto-expiry checker
+  useEffect(() => {
+    if (!expiresAt) {
+      setRemainingMinutes(null);
+      return;
+    }
+
+    const checkExpiration = () => {
+      const diffMs = expiresAt - Date.now();
+      if (diffMs <= 0) {
+        setAdminToken("");
+        setExpiresAt(null);
+        setRemainingMinutes(0);
+        setIsUnauthorized(true);
+        setKeyError("Session expired (30-minute limit). Please re-enter your secret key.");
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("rp_admin_token");
+          sessionStorage.removeItem("rp_admin_token_exp");
+        }
+      } else {
+        setRemainingMinutes(Math.max(1, Math.ceil(diffMs / 60000)));
+      }
+    };
+
+    checkExpiration();
+    const interval = setInterval(checkExpiration, 10000);
+    return () => clearInterval(interval);
+  }, [expiresAt]);
+
+  const handleLogout = useCallback(() => {
+    setAdminToken("");
+    setExpiresAt(null);
+    setRemainingMinutes(null);
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("rp_admin_token");
+      sessionStorage.removeItem("rp_admin_token_exp");
+    }
+    setIsUnauthorized(true);
+  }, []);
+
+  const fetchPricing = useCallback(async (overrideToken?: string) => {
     setLoading(true);
     setError(null);
+    const tokenToUse = overrideToken !== undefined ? overrideToken : adminToken;
     try {
-      const res = await fetch(`/api/admin/pricing?from=${from}&to=${to}`);
+      const headers: Record<string, string> = {};
+      if (tokenToUse) {
+        headers["Authorization"] = `Bearer ${tokenToUse}`;
+      }
+
+      const res = await fetch(`/api/admin/pricing?from=${from}&to=${to}`, { headers });
+      if (res.status === 401) {
+        handleLogout();
+        setKeyError("Unauthorized or session expired. Please enter your secret key.");
+        setLoading(false);
+        return;
+      }
+
       const data = await res.json();
       if (!data.success) throw new Error(data.message || "Failed to load pricing");
+
+      setIsUnauthorized(false);
       setDays(data.days as AdminDayView[]);
       // Seed edit prices from fetched data
       const prices: Record<string, string> = {};
@@ -48,11 +132,49 @@ export default function AdminPricingPage() {
     } finally {
       setLoading(false);
     }
-  }, [from, to]);
+  }, [from, to, adminToken, handleLogout]);
 
   useEffect(() => {
     fetchPricing();
   }, [fetchPricing]);
+
+  const handleUnlock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!keyInput.trim()) return;
+    setIsVerifyingKey(true);
+    setKeyError(null);
+
+    try {
+      // Exchange secret key for a 30-minute signed Bearer token
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ secret: keyInput.trim() }),
+      });
+      const data = await res.json();
+
+      if (res.status === 401 || !data.success) {
+        setKeyError("Invalid Admin Secret Key. Please try again.");
+        setIsVerifyingKey(false);
+        return;
+      }
+
+      // Valid! Save 30-minute token and expiration in state and sessionStorage
+      setAdminToken(data.token);
+      setExpiresAt(data.expiresAt);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("rp_admin_token", data.token);
+        sessionStorage.setItem("rp_admin_token_exp", String(data.expiresAt));
+      }
+      setIsUnauthorized(false);
+      setKeyInput("");
+      fetchPricing(data.token);
+    } catch (err) {
+      setKeyError(err instanceof Error ? err.message : "Authentication failed");
+    } finally {
+      setIsVerifyingKey(false);
+    }
+  };
 
   const saveDate = async (date: string) => {
     const rawPrice = editPrices[date];
@@ -61,11 +183,19 @@ export default function AdminPricingPage() {
 
     setSaveStatus((s) => ({ ...s, [date]: "saving" }));
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (adminToken) headers["Authorization"] = `Bearer ${adminToken}`;
+
       const res = await fetch("/api/admin/pricing", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ date, price: Math.round(price) }),
       });
+      if (res.status === 401) {
+        handleLogout();
+        setKeyError("Your session expired. Please re-enter your secret key.");
+        return;
+      }
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       setSaveStatus((s) => ({ ...s, [date]: "saved" }));
@@ -95,11 +225,19 @@ export default function AdminPricingPage() {
     setBulkSaving(true);
     setBulkResult(null);
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (adminToken) headers["Authorization"] = `Bearer ${adminToken}`;
+
       const res = await fetch("/api/admin/pricing/bulk", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ from: bulkFrom, to: bulkTo, price: Math.round(price) }),
       });
+      if (res.status === 401) {
+        handleLogout();
+        setKeyError("Your session expired. Please re-enter your secret key.");
+        return;
+      }
       const data = await res.json();
       if (!data.success) throw new Error(data.message);
       setBulkResult({ success: true, message: `Updated ${data.updated} days to ${formatINR(price)}` });
@@ -136,14 +274,99 @@ export default function AdminPricingPage() {
               Set and update daily rates for Royal Palace Home Stay.
             </p>
           </div>
-          <button
-            onClick={fetchPricing}
-            className="flex items-center gap-1.5 text-xs text-[#D8C7AD]/60 hover:text-[#B89A62] transition-colors uppercase tracking-wider"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            Refresh
-          </button>
+          <div className="flex items-center gap-3">
+            {adminToken && remainingMinutes !== null && (
+              <div className="flex items-center gap-1.5 text-[11px] text-[#B89A62] bg-[#B89A62]/10 border border-[#B89A62]/20 px-2.5 py-1">
+                <Clock className="w-3 h-3 animate-pulse" />
+                <span>Session: {remainingMinutes}m left</span>
+              </div>
+            )}
+            {adminToken && (
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 text-xs text-[#D8C7AD]/60 hover:text-red-400 transition-colors uppercase tracking-wider"
+                title="Lock / Sign Out"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Lock
+              </button>
+            )}
+            <button
+              onClick={() => fetchPricing()}
+              className="flex items-center gap-1.5 text-xs text-[#D8C7AD]/60 hover:text-[#B89A62] transition-colors uppercase tracking-wider"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Refresh
+            </button>
+          </div>
         </div>
+
+        {/* Unauthorized Lock Screen */}
+        {isUnauthorized && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-md mx-auto my-12 bg-[#1C1A17] border border-[#B89A62]/30 p-8 space-y-6 text-center"
+          >
+            <div className="w-12 h-12 mx-auto rounded-full bg-[#B89A62]/10 border border-[#B89A62]/30 flex items-center justify-center text-[#B89A62]">
+              <Lock className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="font-serif-editorial text-2xl text-[#F5F1E8]">Admin Authentication</h2>
+              <p className="text-xs text-[#D8C7AD]/60 mt-2 font-light leading-relaxed">
+                This dashboard is protected. Enter your <code className="text-[#B89A62]">ADMIN_SECRET_KEY</code> to access pricing controls.
+              </p>
+            </div>
+
+            <form onSubmit={handleUnlock} className="space-y-4 text-left">
+              <div>
+                <label className="block text-[10px] uppercase tracking-wider text-[#D8C7AD]/70 mb-1.5">
+                  Admin Secret Key
+                </label>
+                <div className="relative">
+                  <Key className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#D8C7AD]/40" />
+                  <input
+                    type="password"
+                    value={keyInput}
+                    onChange={(e) => setKeyInput(e.target.value)}
+                    placeholder="Enter ADMIN_SECRET_KEY"
+                    className="w-full bg-[#12100E] border border-[#B89A62]/20 text-xs text-[#F5F1E8] pl-9 pr-3 py-2.5 focus:outline-none focus:border-[#B89A62] transition-colors"
+                    autoFocus
+                  />
+                </div>
+              </div>
+
+              {keyError && (
+                <div className="flex items-center gap-2 text-xs p-2.5 bg-red-900/20 border border-red-500/30 text-red-300">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>{keyError}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isVerifyingKey || !keyInput.trim()}
+                className="w-full py-2.5 bg-[#B89A62] text-[#171513] text-xs font-semibold uppercase tracking-wider hover:bg-[#D4B67E] disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+              >
+                {isVerifyingKey ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Verifying Key...
+                  </>
+                ) : (
+                  <>
+                    <ShieldCheck className="w-4 h-4" />
+                    Unlock Dashboard
+                  </>
+                )}
+              </button>
+            </form>
+          </motion.div>
+        )}
+
+        {/* Dashboard Content (visible when authorized) */}
+        {!isUnauthorized && (
+          <>
 
         {/* Bulk pricing tool */}
         <div className="bg-[#1C1A17] border border-[#B89A62]/20 p-6 space-y-4">
@@ -321,6 +544,8 @@ export default function AdminPricingPage() {
               </div>
             );
           })}
+          </>
+        )}
       </div>
     </div>
   );

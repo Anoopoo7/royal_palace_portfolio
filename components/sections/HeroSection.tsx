@@ -102,7 +102,7 @@ export default function HeroSection({ data }: { data: HeroSectionData }) {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link
-            href="/booking"
+            href="/availability"
             className="w-full sm:w-auto px-8 py-4 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#D4B67E] transition-all shadow-xl"
           >
             {data.primaryCtaText || "CHECK AVAILABILITY"}
