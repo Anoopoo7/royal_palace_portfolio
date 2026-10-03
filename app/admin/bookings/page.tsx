@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { formatDisplayDate, formatINR } from "@/lib/booking/dates";
 import type { Booking, BookingStatus, PaymentStatus } from "@/lib/booking/types";
+import CustomSelect from "@/components/ui/CustomSelect";
 
 export default function AdminBookingsPage() {
   // Auth state
@@ -323,63 +324,57 @@ export default function AdminBookingsPage() {
               </div>
 
               {/* Booking status filter */}
-              <div>
-                <select
-                  value={bookingStatusFilter}
-                  onChange={(e) => {
-                    setBookingStatusFilter(e.target.value);
-                    setPage(1);
-                  }}
-                  className="w-full bg-[#12100E] border border-[#B89A62]/20 text-xs text-[#F5F1E8] px-3 py-2 focus:outline-none focus:border-[#B89A62]"
-                >
-                  <option value="all">All Booking Statuses</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="pending_payment">Pending Payment</option>
-                  <option value="cancelled">Cancelled</option>
-                  <option value="expired">Expired</option>
-                </select>
-              </div>
+              <CustomSelect
+                value={bookingStatusFilter}
+                onChange={(val) => {
+                  setBookingStatusFilter(val);
+                  setPage(1);
+                }}
+                options={[
+                  { value: "all", label: "All Booking Statuses" },
+                  { value: "confirmed", label: "Confirmed" },
+                  { value: "pending_payment", label: "Pending Payment" },
+                  { value: "cancelled", label: "Cancelled" },
+                  { value: "expired", label: "Expired" },
+                ]}
+              />
 
               {/* Payment status filter */}
-              <div>
-                <select
-                  value={paymentStatusFilter}
-                  onChange={(e) => {
-                    setPaymentStatusFilter(e.target.value);
-                    setPage(1);
-                  }}
-                  className="w-full bg-[#12100E] border border-[#B89A62]/20 text-xs text-[#F5F1E8] px-3 py-2 focus:outline-none focus:border-[#B89A62]"
-                >
-                  <option value="all">All Payment Statuses</option>
-                  <option value="paid">Paid (100%)</option>
-                  <option value="partially_paid">Partially Paid (Advance)</option>
-                  <option value="pay_at_property">Pay at Property</option>
-                  <option value="refunded">Refunded</option>
-                  <option value="partially_refunded">Partially Refunded</option>
-                  <option value="failed">Failed</option>
-                </select>
-              </div>
+              <CustomSelect
+                value={paymentStatusFilter}
+                onChange={(val) => {
+                  setPaymentStatusFilter(val);
+                  setPage(1);
+                }}
+                options={[
+                  { value: "all", label: "All Payment Statuses" },
+                  { value: "paid", label: "Paid (100%)" },
+                  { value: "partially_paid", label: "Partially Paid (Advance)" },
+                  { value: "pay_at_property", label: "Pay at Property" },
+                  { value: "refunded", label: "Refunded" },
+                  { value: "partially_refunded", label: "Partially Refunded" },
+                  { value: "failed", label: "Failed" },
+                ]}
+              />
 
               {/* Sort selector */}
-              <div>
-                <select
-                  value={`${sortBy}-${sortOrder}`}
-                  onChange={(e) => {
-                    const [sb, so] = e.target.value.split("-");
-                    setSortBy(sb);
-                    setSortOrder(so as "asc" | "desc");
-                    setPage(1);
-                  }}
-                  className="w-full bg-[#12100E] border border-[#B89A62]/20 text-xs text-[#F5F1E8] px-3 py-2 focus:outline-none focus:border-[#B89A62]"
-                >
-                  <option value="createdAt-desc">Newest First</option>
-                  <option value="createdAt-asc">Oldest First</option>
-                  <option value="checkIn-asc">Check-in (Earliest)</option>
-                  <option value="checkIn-desc">Check-in (Latest)</option>
-                  <option value="totalAmount-desc">Highest Amount</option>
-                  <option value="totalAmount-asc">Lowest Amount</option>
-                </select>
-              </div>
+              <CustomSelect
+                value={`${sortBy}-${sortOrder}`}
+                onChange={(val) => {
+                  const [sb, so] = val.split("-");
+                  setSortBy(sb);
+                  setSortOrder(so as "asc" | "desc");
+                  setPage(1);
+                }}
+                options={[
+                  { value: "createdAt-desc", label: "Newest First" },
+                  { value: "createdAt-asc", label: "Oldest First" },
+                  { value: "checkIn-asc", label: "Check-in (Earliest)" },
+                  { value: "checkIn-desc", label: "Check-in (Latest)" },
+                  { value: "totalAmount-desc", label: "Highest Amount" },
+                  { value: "totalAmount-asc", label: "Lowest Amount" },
+                ]}
+              />
             </div>
 
             {/* Error view */}

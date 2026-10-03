@@ -18,6 +18,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import AvailabilityCalendar from "@/components/availability/AvailabilityCalendar";
+import CustomSelect from "@/components/ui/CustomSelect";
 import { formatDisplayDate, formatINR, countNights } from "@/lib/booking/dates";
 import { calculatePaymentBreakdown } from "@/lib/booking/money";
 import type { NightlyRate, PaymentMethod } from "@/lib/booking/types";
@@ -204,17 +205,14 @@ function StepGuests({
           <label className="block text-[10px] uppercase tracking-wider text-[#D8C7AD] mb-1.5">
             Number of Guests *
           </label>
-          <select
-            value={form.numberOfGuests}
-            onChange={(e) => setForm((f) => ({ ...f, numberOfGuests: Number(e.target.value) }))}
-            className={inputClass}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-              <option key={n} value={n}>
-                {n} Guest{n !== 1 ? "s" : ""}
-              </option>
-            ))}
-          </select>
+          <CustomSelect
+            value={String(form.numberOfGuests)}
+            onChange={(val) => setForm((f) => ({ ...f, numberOfGuests: Number(val) }))}
+            options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => ({
+              value: String(n),
+              label: `${n} Guest${n !== 1 ? "s" : ""}`,
+            }))}
+          />
         </div>
 
         <div>

@@ -62,6 +62,45 @@
   background: #B89A62;
 }
 
+/* Global Custom Styled Dropdowns & Options for Royal Theme */
+select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: #12100E !important;
+  color: #F5F1E8 !important;
+  border: 1px solid rgba(184, 154, 98, 0.25) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23B89A62'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.85rem center !important;
+  background-size: 0.9rem 0.9rem !important;
+  padding-right: 2.5rem !important;
+  cursor: pointer;
+  border-radius: 0px !important;
+  font-family: inherit;
+}
+
+select:focus {
+  outline: none !important;
+  border-color: #B89A62 !important;
+  box-shadow: 0 0 0 1px rgba(184, 154, 98, 0.3) !important;
+}
+
+/* Opaque dark background for dropdown option menus across all OS & browsers */
+select option {
+  background-color: #1A1714 !important;
+  color: #F5F1E8 !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #26221D !important;
+  color: #B89A62 !important;
+}
+
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
