@@ -11,12 +11,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/gallery",
     "/about",
     "/contact",
+    "/availability",
     "/booking",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : 0.8,
+    priority: route === "" ? 1.0 : route === "/availability" || route === "/booking" ? 0.9 : 0.8,
   }));
 
   const roomRoutes = MOCK_ROOMS.map((room) => ({

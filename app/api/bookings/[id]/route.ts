@@ -1,27 +1,59 @@
+/**
+ * GET /api/bookings/[id]
+ *
+ * Fetch a booking by its bookingId (e.g. RP-884920).
+ * Returns booking details for the confirmation page.
+ * Does NOT expose sensitive admin-only fields.
+ */
 import { NextResponse } from "next/server";
-import { getReservationByReference } from "@/lib/db/booking-service";
+import { getBookingById } from "@/lib/booking/booking-service";
 
 export async function GET(
-  request: Request,
-  props: { params: Promise<{ id: string }> }
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await props.params;
-    if (!id) {
-      return NextResponse.json({ error: "Booking reference required" }, { status: 400 });
+    const { id } = await params;
+
+    if (!id || !/^RP-\d{6}$/.test(id)) {
+      return NextResponse.json(
+        { success: false, code: "BOOKING_NOT_FOUND", message: "Invalid booking ID format" },
+        { status: 404 }
+      );
     }
 
-    const reservation = await getReservationByReference(id);
-    if (!reservation) {
-      return NextResponse.json({ error: "Reservation not found" }, { status: 404 });
+    const booking = await getBookingById(id);
+
+    if (!booking) {
+      return NextResponse.json(
+        { success: false, code: "BOOKING_NOT_FOUND", message: "Booking not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      reservation,
+      booking: {
+        bookingId: booking.bookingId,
+        checkIn: booking.checkIn,
+        checkOut: booking.checkOut,
+        nights: booking.nightlyBreakdown.length,
+        nightlyBreakdown: booking.nightlyBreakdown,
+        totalAmount: booking.totalAmount,
+        currency: booking.currency,
+        guestName: booking.guestName,
+        guestEmail: booking.guestEmail,
+        numberOfGuests: booking.numberOfGuests,
+        specialRequests: booking.specialRequests,
+        status: booking.status,
+        createdAt: booking.createdAt,
+      },
     });
-  } catch (error: unknown) {
-    console.error("Fetch booking error:", error);
-    return NextResponse.json({ error: "Failed to retrieve booking" }, { status: 500 });
+  } catch (error) {
+    console.error("[GET /api/bookings/[id]]", error);
+    return NextResponse.json(
+      { success: false, code: "INTERNAL_SERVER_ERROR", message: "Failed to fetch booking" },
+      { status: 500 }
+    );
   }
 }
