@@ -28,6 +28,16 @@ import { calculatePaymentBreakdown } from "./money";
 import { getServerPaymentConfig } from "./payment-config";
 import { logBookingAudit, getBookingAuditLogs } from "./audit-service";
 import { sendOrderConfirmationEmail } from "@/lib/email/histeria-mails";
+import { sendN8nOrderWebhook } from "@/lib/notifications/n8n-service";
+
+function notifyConfirmedBooking(booking: Booking) {
+  sendOrderConfirmationEmail(booking).catch((err) =>
+    console.error("[notifyConfirmedBooking] Email error:", err)
+  );
+  sendN8nOrderWebhook(booking).catch((err) =>
+    console.error("[notifyConfirmedBooking] n8n webhook error:", err)
+  );
+}
 
 const DB_NAME = () => process.env.MONGODB_DB_NAME || "royal_palace_homestay_test";
 const COLLECTION = "homestayBookings";
@@ -259,9 +269,7 @@ export async function createHomestayBooking(data: {
     });
 
     if (!isOnlinePayment) {
-      sendOrderConfirmationEmail(booking).catch((err) =>
-        console.error("[createHomestayBooking] Error sending email:", err)
-      );
+      notifyConfirmedBooking(booking);
     }
 
     return booking;
@@ -404,9 +412,7 @@ export async function createPaidHomestayBooking(params: {
       },
     });
 
-    sendOrderConfirmationEmail(booking).catch((err) =>
-      console.error("[createPaidHomestayBooking] Error sending email:", err)
-    );
+    notifyConfirmedBooking(booking);
 
     return booking;
   } finally {
@@ -504,9 +510,7 @@ export async function confirmBookingPayment(params: {
 
   const updatedBooking = await col.findOne({ bookingId: params.bookingId });
   if (updatedBooking) {
-    sendOrderConfirmationEmail(updatedBooking).catch((err) =>
-      console.error("[confirmBookingPayment] Error sending email:", err)
-    );
+    notifyConfirmedBooking(updatedBooking);
   }
 
   return updatedBooking;
