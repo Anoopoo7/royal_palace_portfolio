@@ -1,4 +1,5 @@
 import { defineType, defineField } from "./types-helper";
+import { customMetaTagsField } from "./customMetaTagsField";
 
 export const experience = defineType({
   name: "experience",
@@ -24,5 +25,8 @@ export const experience = defineType({
     defineField({ name: "location", title: "Location", type: "string" }),
     defineField({ name: "featured", title: "Featured on Home", type: "boolean", initialValue: false }),
     defineField({ name: "ctaText", title: "CTA Text", type: "string" }),
+    defineField({ name: "seoTitle", title: "SEO Title", type: "string" }),
+    defineField({ name: "seoDescription", title: "SEO Description", type: "text", rows: 2 }),
+    customMetaTagsField,
   ],
 });

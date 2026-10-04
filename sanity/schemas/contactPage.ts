@@ -1,4 +1,5 @@
 import { defineType, defineField } from "./types-helper";
+import { customMetaTagsField } from "./customMetaTagsField";
 
 export const contactPage = defineType({
   name: "contactPage",
@@ -51,5 +52,6 @@ export const contactPage = defineType({
       initialValue:
         "Get in touch with Royal Palace Varkala concierge for reservations and directions.",
     }),
+    customMetaTagsField,
   ],
 });

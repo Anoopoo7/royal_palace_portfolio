@@ -1,6 +1,7 @@
 import { getContactPageData, getSiteSettings } from "@/lib/sanity/queries";
 import { MapPin, Phone, Mail, MessageSquare, Navigation } from "lucide-react";
 import { Metadata } from "next";
+import { buildCustomMetaTags } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getContactPageData();
@@ -9,6 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       pageData.seoDescription ||
       "Get in touch with Royal Palace Varkala concierge for reservations and directions.",
+    other: buildCustomMetaTags(pageData.customMetaTags),
   };
 }
 

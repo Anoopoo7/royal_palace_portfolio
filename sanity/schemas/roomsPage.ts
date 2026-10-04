@@ -1,4 +1,5 @@
 import { defineType, defineField } from "./types-helper";
+import { customMetaTagsField } from "./customMetaTagsField";
 
 export const roomsPage = defineType({
   name: "roomsPage",
@@ -57,5 +58,6 @@ export const roomsPage = defineType({
       initialValue:
         "Discover luxury cliffside suites and heritage teak villas at Royal Palace Varkala.",
     }),
+    customMetaTagsField,
   ],
 });

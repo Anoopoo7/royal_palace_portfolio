@@ -1,4 +1,5 @@
 import { defineType, defineField } from "./types-helper";
+import { customMetaTagsField } from "./customMetaTagsField";
 
 export const room = defineType({
   name: "room",
@@ -21,5 +22,6 @@ export const room = defineType({
     defineField({ name: "ctaLabel", title: "CTA Button Label", type: "string", initialValue: "Reserve Room" }),
     defineField({ name: "seoTitle", title: "SEO Title", type: "string" }),
     defineField({ name: "seoDescription", title: "SEO Description", type: "text" }),
+    customMetaTagsField,
   ],
 });

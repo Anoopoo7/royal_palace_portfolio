@@ -5,12 +5,17 @@ import { Clock, MapPin } from "lucide-react";
 import SanityImg from "@/components/ui/SanityImg";
 import SanityVideo from "@/components/ui/SanityVideo";
 import ImageGalleryLightbox from "@/components/ui/ImageGalleryLightbox";
+import { buildCustomMetaTags } from "@/lib/seo";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   const exp = await getExperienceBySlug(slug);
   if (!exp) return { title: "Experience Not Found" };
-  return { title: exp.title, description: exp.shortDescription };
+  return {
+    title: exp.seoTitle || exp.title,
+    description: exp.seoDescription || exp.shortDescription,
+    other: buildCustomMetaTags(exp.customMetaTags),
+  };
 }
 
 export default async function ExperienceDetailPage(props: { params: Promise<{ slug: string }> }) {

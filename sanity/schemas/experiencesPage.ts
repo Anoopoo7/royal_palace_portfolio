@@ -1,4 +1,5 @@
 import { defineType, defineField } from "./types-helper";
+import { customMetaTagsField } from "./customMetaTagsField";
 
 export const experiencesPage = defineType({
   name: "experiencesPage",
@@ -45,5 +46,6 @@ export const experiencesPage = defineType({
       initialValue:
         "Explore cliffside walks, backwater kayaking, and authentic Malabar dining at Royal Palace Varkala.",
     }),
+    customMetaTagsField,
   ],
 });

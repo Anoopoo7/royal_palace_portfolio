@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import SanityImg from "@/components/ui/SanityImg";
 import { Metadata } from "next";
+import { buildCustomMetaTags } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getExperiencesPageData();
@@ -11,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       pageData.seoDescription ||
       "Explore cliffside walks, backwater kayaking, and authentic Malabar dining at Royal Palace Varkala.",
+    other: buildCustomMetaTags(pageData.customMetaTags),
   };
 }
 

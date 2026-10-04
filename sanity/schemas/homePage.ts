@@ -1,4 +1,5 @@
 import { defineType, defineField } from "./types-helper";
+import { customMetaTagsField } from "./customMetaTagsField";
 
 export const homePage = defineType({
   name: "homePage",
@@ -223,5 +224,8 @@ export const homePage = defineType({
         },
       ],
     }),
+    defineField({ name: "seoTitle", title: "SEO Title", type: "string", description: "Overrides the global SEO title for the homepage" }),
+    defineField({ name: "seoDescription", title: "SEO Description", type: "text", rows: 2, description: "Overrides the global SEO description for the homepage" }),
+    customMetaTagsField,
   ],
 });

@@ -1,3 +1,9 @@
+export interface CustomMetaTag {
+  _key: string;
+  name: string;
+  content: string;
+}
+
 export interface SanityImage {
   _type: 'image';
   asset: {
@@ -24,9 +30,14 @@ export interface SanityFile {
 }
 
 export interface SiteSettings {
+  // General
   propertyName: string;
   tagline: string;
   logo?: SanityImage;
+  siteUrl?: string;
+  locale?: string;
+
+  // Contact & Social
   phone: string;
   whatsapp: string;
   email: string;
@@ -34,10 +45,66 @@ export interface SiteSettings {
   googleMapsUrl?: string;
   instagramUrl?: string;
   facebookUrl?: string;
+  tiktokUrl?: string;
+  youtubeUrl?: string;
+
+  // SEO & Meta
   defaultSeoTitle?: string;
+  seoTitleTemplate?: string;
   defaultSeoDescription?: string;
+  seoKeywords?: string[];
+  canonicalUrl?: string;
+
+  // Open Graph
+  defaultOgTitle?: string;
+  defaultOgDescription?: string;
   defaultOgImage?: SanityImage;
+  ogType?: string;
+
+  // Twitter Card
+  twitterCardType?: "summary" | "summary_large_image" | "app" | "player";
+  twitterHandle?: string;
+  twitterSiteHandle?: string;
+  twitterDefaultImage?: SanityImage;
+
+  // Schema.org / Google Business
+  businessType?: string;
+  priceRange?: string;
+  latitude?: string;
+  longitude?: string;
+  addressLocality?: string;
+  addressRegion?: string;
+  addressCountry?: string;
+  postalCode?: string;
+  checkInTime?: string;
+  checkOutTime?: string;
+  starRating?: number;
+  aggregateRating?: number;
+  ratingCount?: number;
+  currenciesAccepted?: string[];
+  paymentAccepted?: string[];
+
+  // Favicon & PWA Manifest
+  faviconIco?: SanityImage;
+  favicon32?: SanityImage;
+  favicon16?: SanityImage;
+  appleIcon?: SanityImage;
+  manifestIcon192?: SanityImage;
+  manifestIcon512?: SanityImage;
+  pwaShortName?: string;
+  pwaThemeColor?: string;
+  pwaBackgroundColor?: string;
+  pwaDisplay?: "standalone" | "browser" | "minimal-ui" | "fullscreen";
+
+  // Robots & Crawling
+  robotsIndex?: boolean;
+  robotsFollow?: boolean;
+  robotsDisallow?: string[];
+  googleVerification?: string;
+  bingVerification?: string;
+  customMetaTags?: CustomMetaTag[];
 }
+
 
 export interface NavItem {
   _key: string;
@@ -66,6 +133,7 @@ export interface RoomCMS {
   ctaLabel?: string;
   seoTitle?: string;
   seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
 }
 
 export interface ExperienceCMS {
@@ -82,6 +150,9 @@ export interface ExperienceCMS {
   location: string;
   featured?: boolean;
   ctaText?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
 }
 
 export interface TestimonialCMS {
@@ -241,6 +312,13 @@ export interface FinalCtaSectionData extends SectionBase {
   backgroundImage?: SanityImage | string;
 }
 
+export interface HomePageData {
+  title?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
+}
+
 export interface RoomsPageData {
   eyebrow?: string;
   heading?: string;
@@ -250,6 +328,7 @@ export interface RoomsPageData {
   amenitiesHeading?: string;
   seoTitle?: string;
   seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
 }
 
 export interface ExperiencesPageData {
@@ -259,6 +338,7 @@ export interface ExperiencesPageData {
   detailsCtaText?: string;
   seoTitle?: string;
   seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
 }
 
 export interface AboutPageData {
@@ -272,6 +352,7 @@ export interface AboutPageData {
   ctaButtonText?: string;
   seoTitle?: string;
   seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
 }
 
 export interface ContactPageData {
@@ -282,6 +363,7 @@ export interface ContactPageData {
   formSubmitText?: string;
   seoTitle?: string;
   seoDescription?: string;
+  customMetaTags?: CustomMetaTag[];
 }
 
 export type HomeSection =

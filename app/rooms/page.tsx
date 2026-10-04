@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Users, Bed } from "lucide-react";
 import SanityImg from "@/components/ui/SanityImg";
 import { Metadata } from "next";
+import { buildCustomMetaTags } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getRoomsPageData();
@@ -11,6 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       pageData.seoDescription ||
       "Discover luxury cliffside suites and heritage teak villas at Royal Palace Varkala.",
+    other: buildCustomMetaTags(pageData.customMetaTags),
   };
 }
 

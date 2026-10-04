@@ -1,10 +1,19 @@
 import { MetadataRoute } from "next";
-import { MOCK_ROOMS, MOCK_EXPERIENCES } from "@/lib/mock-data";
+import { getSiteSettings, getRooms, getExperiences } from "@/lib/sanity/queries";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [settings, rooms, experiences] = await Promise.all([
+    getSiteSettings(),
+    getRooms(),
+    getExperiences(),
+  ]);
 
-  const staticRoutes = [
+  const baseUrl =
+    settings.siteUrl ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "http://localhost:3000";
+
+  const staticRoutes: MetadataRoute.Sitemap = [
     "",
     "/rooms",
     "/experiences",
@@ -12,25 +21,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/contact",
     "/availability",
-    "/booking",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : route === "/availability" || route === "/booking" ? 0.9 : 0.8,
+    changeFrequency: "weekly",
+    priority: route === "" ? 1.0 : route === "/availability" ? 0.9 : 0.8,
   }));
 
-  const roomRoutes = MOCK_ROOMS.map((room) => ({
+  const roomRoutes: MetadataRoute.Sitemap = rooms.map((room) => ({
     url: `${baseUrl}/rooms/${room.slug.current}`,
     lastModified: new Date(),
-    changeFrequency: "monthly" as const,
+    changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  const experienceRoutes = MOCK_EXPERIENCES.map((exp) => ({
+  const experienceRoutes: MetadataRoute.Sitemap = experiences.map((exp) => ({
     url: `${baseUrl}/experiences/${exp.slug.current}`,
     lastModified: new Date(),
-    changeFrequency: "monthly" as const,
+    changeFrequency: "monthly",
     priority: 0.7,
   }));
 

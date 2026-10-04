@@ -2,6 +2,7 @@ import { getAboutPageData } from "@/lib/sanity/queries";
 import Link from "next/link";
 import SanityImg from "@/components/ui/SanityImg";
 import { Metadata } from "next";
+import { buildCustomMetaTags } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageData = await getAboutPageData();
@@ -10,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       pageData.seoDescription ||
       "The story behind Royal Palace private resort homestay in Varkala, Kerala.",
+    other: buildCustomMetaTags(pageData.customMetaTags),
   };
 }
 

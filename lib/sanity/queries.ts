@@ -12,6 +12,7 @@ import {
   ExperiencesPageData,
   AboutPageData,
   ContactPageData,
+  HomePageData,
 } from "./types";
 import {
   MOCK_SITE_SETTINGS,
@@ -38,6 +39,12 @@ export async function getNavigation(): Promise<NavItem[]> {
   const query = `*[_type == "navigation"] | order(order asc)`;
   const result = await fetchSanityQuery<NavItem[]>(query);
   return result && result.length > 0 ? result : MOCK_NAVIGATION;
+}
+
+export async function getHomePageData(): Promise<HomePageData> {
+  const query = `*[_type == "homePage"][0]{title, seoTitle, seoDescription, customMetaTags}`;
+  const result = await fetchSanityQuery<HomePageData>(query);
+  return result || {};
 }
 
 export async function getHomePageSections(): Promise<HomeSection[]> {

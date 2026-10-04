@@ -3,14 +3,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Users, Bed, Check, ShieldCheck, Calendar } from "lucide-react";
 import SanityImg from "@/components/ui/SanityImg";
+import { buildCustomMetaTags } from "@/lib/seo";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   const room = await getRoomBySlug(slug);
   if (!room) return { title: "Room Not Found" };
   return {
-    title: room.name,
-    description: room.shortDescription,
+    title: room.seoTitle || room.name,
+    description: room.seoDescription || room.shortDescription,
+    other: buildCustomMetaTags(room.customMetaTags),
   };
 }
 
