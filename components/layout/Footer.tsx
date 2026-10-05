@@ -28,7 +28,6 @@ export default function Footer({ settings, navigation }: FooterProps) {
             {settings.logo?.asset?._ref ? (
               <SanityImg
                 source={settings.logo}
-                options={{ height: 52 }}
                 alt={settings.propertyName ?? "Royal Palace"}
                 className="h-11 w-auto object-contain"
               />

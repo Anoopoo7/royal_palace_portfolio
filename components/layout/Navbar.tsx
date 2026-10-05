@@ -51,7 +51,6 @@ export default function Navbar({ settings, navigation }: NavbarProps) {
             {settings.logo?.asset?._ref ? (
               <SanityImg
                 source={settings.logo}
-                options={{ height: 48 }}
                 alt={settings.propertyName ?? "Royal Palace"}
                 className="h-10 md:h-12 w-auto object-contain"
               />
