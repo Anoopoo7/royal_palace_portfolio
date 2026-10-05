@@ -3,7 +3,7 @@ import { defineCliConfig } from "sanity/cli";
 export default defineCliConfig({
   api: {
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "o3q973rv",
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "development",
+    dataset: process.env.SANITY_STUDIO_PRODUCTION_DATASET || "production",
   },
   studioHost: "royal-palace-varkala",
   deployment: {

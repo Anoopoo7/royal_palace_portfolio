@@ -1,10 +1,11 @@
-import { defineConfig } from "sanity";
+import { defineConfig, Template } from "sanity";
 import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { schemaTypes } from "./sanity/schemas";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "o3q973rv";
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "development";
+const productionDataset = process.env.SANITY_STUDIO_PRODUCTION_DATASET || "production";
+const developmentDataset = process.env.SANITY_STUDIO_DEVELOPMENT_DATASET || "development";
 
 // Singleton document types that should only have a single document instance
 const singletonTypes = new Set([
@@ -16,12 +17,8 @@ const singletonTypes = new Set([
   "contactPage",
 ]);
 
-export default defineConfig({
-  name: "royal-palace-studio",
-  title: "Royal Palace Resort Studio",
+const sharedConfig = {
   projectId,
-  dataset,
-  basePath: "/studio",
   plugins: [
     structureTool({
       structure: (S) =>
@@ -96,8 +93,24 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     // Filter out singleton types from "Create new document" dropdown
-    templates: (templates) =>
+    templates: (templates: Template[]) =>
       templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
   },
-});
+};
 
+export default defineConfig([
+  {
+    ...sharedConfig,
+    name: "production",
+    title: "Royal Palace Resort",
+    basePath: "/production",
+    dataset: productionDataset,
+  },
+  {
+    ...sharedConfig,
+    name: "development",
+    title: "Royal Palace Resort (Test)",
+    basePath: "/development",
+    dataset: developmentDataset,
+  },
+]);
