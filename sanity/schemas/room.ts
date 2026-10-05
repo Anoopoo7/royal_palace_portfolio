@@ -18,8 +18,6 @@ export const room = defineType({
     defineField({ name: "bathrooms", title: "Bathroom Details", type: "string" }),
     defineField({ name: "amenities", title: "Amenities", type: "array", of: [{ type: "string" }] }),
     defineField({ name: "highlights", title: "Key Highlights", type: "array", of: [{ type: "string" }] }),
-    defineField({ name: "basePrice", title: "Display Base Price (INR)", type: "number" }),
-    defineField({ name: "ctaLabel", title: "CTA Button Label", type: "string", initialValue: "Reserve Room" }),
     defineField({ name: "seoTitle", title: "SEO Title", type: "string" }),
     defineField({ name: "seoDescription", title: "SEO Description", type: "text" }),
     customMetaTagsField,

@@ -129,8 +129,6 @@ export interface RoomCMS {
   bathrooms: string;
   amenities: string[];
   highlights?: string[];
-  basePrice: number;
-  ctaLabel?: string;
   seoTitle?: string;
   seoDescription?: string;
   customMetaTags?: CustomMetaTag[];
@@ -323,8 +321,8 @@ export interface RoomsPageData {
   eyebrow?: string;
   heading?: string;
   subtitle?: string;
-  bookCtaText?: string;
   detailsCtaText?: string;
+  villaBookCtaText?: string;
   amenitiesHeading?: string;
   seoTitle?: string;
   seoDescription?: string;

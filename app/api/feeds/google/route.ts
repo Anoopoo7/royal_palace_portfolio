@@ -34,19 +34,19 @@ export async function GET() {
         imageUrl = urlForImageSized(room.gallery[0], 1200, 800);
       }
 
-      // Base price in INR format
-      const price = room.basePrice ? `${room.basePrice.toFixed(2)} INR` : "0.00 INR";
+      // Villa price note — pricing is dynamic (from MongoDB dailyRates, not per-room)
+      const priceNote = "0.00 INR"; // Dynamic pricing — see website for current rates
 
       xml += `    <item>
       <g:id>${escapeXml(room._id)}</g:id>
-      <g:title>${escapeXml(room.name)}</g:title>
+      <g:title>${escapeXml(room.name)} — Royal Palace Villa (Entire Property)</g:title>
       <g:description>${escapeXml(room.shortDescription || room.name)}</g:description>
       <g:link>${siteUrl}/rooms/${room.slug.current}</g:link>
       ${imageUrl ? `<g:image_link>${escapeXml(imageUrl)}</g:image_link>` : ""}
       <g:availability>in stock</g:availability>
-      <g:price>${price}</g:price>
+      <g:price>${priceNote}</g:price>
       <g:condition>new</g:condition>
-      <g:product_type>Hotel Room</g:product_type>
+      <g:product_type>Whole Villa Rental</g:product_type>
       <g:brand>${escapeXml(title)}</g:brand>
     </item>\n`;
     });

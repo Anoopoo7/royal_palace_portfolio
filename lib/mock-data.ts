@@ -67,8 +67,6 @@ export const MOCK_ROOMS: RoomCMS[] = [
       "Butler Service",
     ],
     highlights: ["Sunset ocean view", "Plunge pool", "King suite"],
-    basePrice: 14500,
-    ctaLabel: "Reserve Suite",
   },
   {
     _id: "room-2",
@@ -95,8 +93,6 @@ export const MOCK_ROOMS: RoomCMS[] = [
       "Organic Linen & Bathrobes",
     ],
     highlights: ["Two private bedrooms", "Open sky rain shower", "Garden courtyard"],
-    basePrice: 22000,
-    ctaLabel: "Reserve Villa",
   },
   {
     _id: "room-3",
@@ -121,8 +117,6 @@ export const MOCK_ROOMS: RoomCMS[] = [
       "Custom Natural Bath Products",
     ],
     highlights: ["Garden terrace", "Quiet location", "Artisanal breakfast"],
-    basePrice: 9800,
-    ctaLabel: "Reserve Sanctuary",
   },
 ];
 
@@ -458,8 +452,8 @@ export const MOCK_ROOMS_PAGE: RoomsPageData = {
   seoTitle: "Accommodations & Suites | Royal Palace",
   seoDescription:
     "Discover luxury cliffside suites and heritage teak villas at Royal Palace Varkala.",
-  bookCtaText: "Book This Room",
   detailsCtaText: "View Details",
+  villaBookCtaText: "Book Entire Villa",
   amenitiesHeading: "Key Amenities",
 };
 

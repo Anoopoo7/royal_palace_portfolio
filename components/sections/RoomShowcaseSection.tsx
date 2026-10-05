@@ -60,9 +60,6 @@ export default function RoomShowcaseSection({
                     alt={room.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute top-4 right-4 bg-[#171513]/80 backdrop-blur-md px-3 py-1 text-[11px] text-[#B89A62] border border-[#B89A62]/30 font-medium">
-                    From ₹{room.basePrice.toLocaleString("en-IN")} / night
-                  </div>
                 </div>
 
                 {/* Content */}
@@ -107,7 +104,7 @@ export default function RoomShowcaseSection({
                   href={`/rooms/${room.slug.current}`}
                   className="w-full py-3 bg-transparent border border-[#B89A62]/40 text-[#F5F1E8] text-center text-xs font-semibold tracking-[0.18em] uppercase block hover:bg-[#B89A62] hover:text-[#171513] transition-all"
                 >
-                  {room.ctaLabel || "Explore Suite"}
+                  Explore Suite
                 </Link>
               </div>
             </motion.div>

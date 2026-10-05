@@ -27,16 +27,16 @@ export const roomsPage = defineType({
         "Each suite and villa at Royal Palace is crafted from warm Kerala teak, natural stone, and expansive ocean balconies designed to capture slow coastal daylight.",
     }),
     defineField({
-      name: "bookCtaText",
-      title: "Book CTA Text",
-      type: "string",
-      initialValue: "Book This Room",
-    }),
-    defineField({
       name: "detailsCtaText",
-      title: "View Details CTA Text",
+      title: "View Suite CTA Text",
       type: "string",
       initialValue: "View Details",
+    }),
+    defineField({
+      name: "villaBookCtaText",
+      title: "Book Entire Villa CTA Text",
+      type: "string",
+      initialValue: "Book Entire Villa",
     }),
     defineField({
       name: "amenitiesHeading",

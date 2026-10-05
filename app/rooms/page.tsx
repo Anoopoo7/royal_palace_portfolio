@@ -22,6 +22,7 @@ export default async function RoomsPage() {
   return (
     <div className="pt-32 pb-24 bg-[#171513] text-[#F5F1E8] min-h-screen">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16">
+        {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           {pageData.eyebrow && (
             <span className="text-[10px] uppercase tracking-[0.35em] text-[#B89A62] font-semibold">
@@ -38,6 +39,21 @@ export default async function RoomsPage() {
           )}
         </div>
 
+        {/* Whole Villa Notice Banner */}
+        <div className="bg-[#1C1A17] border border-[#B89A62]/40 p-6 text-center space-y-3">
+          <p className="text-xs text-[#D8C7AD] font-light leading-relaxed">
+            Royal Palace is available exclusively as a <strong className="text-[#F5F1E8]">whole-property booking</strong>.
+            All suites and spaces below are part of a single private villa experience — not sold individually.
+          </p>
+          <Link
+            href="/booking"
+            className="inline-block px-8 py-3.5 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.2em] uppercase hover:bg-[#D4B67E] transition-all"
+          >
+            {pageData.villaBookCtaText || "Book Entire Villa"}
+          </Link>
+        </div>
+
+        {/* Room Showcase */}
         <div className="space-y-16">
           {rooms.map((room, idx) => (
             <div
@@ -52,11 +68,6 @@ export default async function RoomsPage() {
                   alt={room.name}
                   className="w-full h-full object-cover"
                 />
-                {room.basePrice && (
-                  <div className="absolute top-4 right-4 bg-[#171513]/90 text-[#B89A62] text-xs px-3 py-1 font-mono border border-[#B89A62]/30">
-                    Starting at ₹{room.basePrice.toLocaleString("en-IN")} / night
-                  </div>
-                )}
               </div>
 
               <div className="lg:col-span-5 space-y-6">
@@ -93,26 +104,32 @@ export default async function RoomsPage() {
                   </div>
                 )}
 
-                <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                  <Link
-                    href={`/booking?room=${room.slug.current}`}
-                    className="px-6 py-3.5 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.2em] uppercase text-center hover:bg-[#D4B67E] transition-all"
-                  >
-                    {pageData.bookCtaText || "Book This Room"}
-                  </Link>
+                <div className="pt-4">
                   <Link
                     href={`/rooms/${room.slug.current}`}
-                    className="px-6 py-3.5 border border-[#B89A62]/40 text-[#F5F1E8] text-xs font-medium tracking-[0.2em] uppercase text-center hover:bg-[#B89A62] hover:text-[#171513] transition-all"
+                    className="px-6 py-3.5 border border-[#B89A62]/40 text-[#F5F1E8] text-xs font-medium tracking-[0.2em] uppercase text-center inline-block hover:bg-[#B89A62] hover:text-[#171513] transition-all"
                   >
-                    {pageData.detailsCtaText || "View Details"}
+                    {pageData.detailsCtaText || "View Suite Details"}
                   </Link>
                 </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center pt-8 space-y-4 border-t border-[#B89A62]/20">
+          <p className="text-xs text-[#D8C7AD]/70">
+            Ready to reserve the entire property?
+          </p>
+          <Link
+            href="/booking"
+            className="inline-block px-10 py-4 bg-[#B89A62] text-[#171513] text-xs font-semibold tracking-[0.25em] uppercase hover:bg-[#D4B67E] transition-all shadow-xl"
+          >
+            Check Villa Availability
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
-
