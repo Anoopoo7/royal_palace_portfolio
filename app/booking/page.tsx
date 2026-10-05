@@ -130,10 +130,14 @@ function StepGuests({
   onBack: () => void;
   initialData?: GuestFormData | null;
 }) {
+
+  console.log({ initialData });
+
+
   const [form, setForm] = useState<GuestFormData>(
     initialData || {
       guestName: "",
-      guestEmail: "",
+      guestEmail: localStorage.getItem("rp_user_email") || "",
       guestPhone: "",
       numberOfGuests: 2,
       specialRequests: "",
@@ -372,11 +376,10 @@ function StepReview({
           {enabledMethods.includes("advance") && (
             <div
               onClick={() => onSelectMethod("advance")}
-              className={`cursor-pointer p-4 border transition-all flex items-start justify-between ${
-                selectedMethod === "advance"
-                  ? "bg-[#1C1A17] border-[#B89A62] shadow-lg"
-                  : "bg-[#12100E] border-[#B89A62]/20 hover:border-[#B89A62]/40"
-              }`}
+              className={`cursor-pointer p-4 border transition-all flex items-start justify-between ${selectedMethod === "advance"
+                ? "bg-[#1C1A17] border-[#B89A62] shadow-lg"
+                : "bg-[#12100E] border-[#B89A62]/20 hover:border-[#B89A62]/40"
+                }`}
             >
               <div className="flex items-start gap-3">
                 <input
@@ -415,11 +418,10 @@ function StepReview({
           {enabledMethods.includes("full") && (
             <div
               onClick={() => onSelectMethod("full")}
-              className={`cursor-pointer p-4 border transition-all flex items-start justify-between ${
-                selectedMethod === "full"
-                  ? "bg-[#1C1A17] border-[#B89A62] shadow-lg"
-                  : "bg-[#12100E] border-[#B89A62]/20 hover:border-[#B89A62]/40"
-              }`}
+              className={`cursor-pointer p-4 border transition-all flex items-start justify-between ${selectedMethod === "full"
+                ? "bg-[#1C1A17] border-[#B89A62] shadow-lg"
+                : "bg-[#12100E] border-[#B89A62]/20 hover:border-[#B89A62]/40"
+                }`}
             >
               <div className="flex items-start gap-3">
                 <input
@@ -453,11 +455,10 @@ function StepReview({
           {enabledMethods.includes("pay_later") && (
             <div
               onClick={() => onSelectMethod("pay_later")}
-              className={`cursor-pointer p-4 border transition-all flex items-start justify-between ${
-                selectedMethod === "pay_later"
-                  ? "bg-[#1C1A17] border-[#B89A62] shadow-lg"
-                  : "bg-[#12100E] border-[#B89A62]/20 hover:border-[#B89A62]/40"
-              }`}
+              className={`cursor-pointer p-4 border transition-all flex items-start justify-between ${selectedMethod === "pay_later"
+                ? "bg-[#1C1A17] border-[#B89A62] shadow-lg"
+                : "bg-[#12100E] border-[#B89A62]/20 hover:border-[#B89A62]/40"
+                }`}
             >
               <div className="flex items-start gap-3">
                 <input
@@ -524,8 +525,8 @@ function StepReview({
                 {selectedMethod === "advance"
                   ? `Pay 50% Advance (${formatINR(currentBreakdown.requiredAmount)})`
                   : selectedMethod === "full"
-                  ? `Pay Full Amount (${formatINR(totalAmount)})`
-                  : "Confirm & Pay on Arrival"}
+                    ? `Pay Full Amount (${formatINR(totalAmount)})`
+                    : "Confirm & Pay on Arrival"}
               </span>
             </>
           )}
@@ -852,21 +853,20 @@ function BookingFlowContent() {
             return (
               <span
                 key={s}
-                className={`flex items-center gap-1.5 ${
-                  isActive
-                    ? "text-[#B89A62] font-semibold"
-                    : isDone
+                className={`flex items-center gap-1.5 ${isActive
+                  ? "text-[#B89A62] font-semibold"
+                  : isDone
                     ? "text-[#D8C7AD]/50"
                     : "text-[#D8C7AD]/30"
-                }`}
+                  }`}
               >
                 {isDone && <CheckCircle2 className="w-3 h-3" />}
                 {num}.{" "}
                 {s === "dates"
                   ? "Select Dates"
                   : s === "guests"
-                  ? "Guest Details"
-                  : "Review & Pay"}
+                    ? "Guest Details"
+                    : "Review & Pay"}
                 {i < 2 && <span className="ml-3 text-[#B89A62]/20">—</span>}
               </span>
             );
